@@ -1,30 +1,19 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
 
-  before_filter :require_user, :check_init
+  before_filter :require_partner
 
-  def require_user
-    if session[:user_id].blank?
+  def require_partner
+    if session[:partner_id].blank?
       redirect_to :login and return
     end
     
-    @current_user = User.find_by_id session[:user_id]
+    @current_partner = Partner.find_by_id session[:partner_id]
     
-    unless @current_user
+    unless @current_partner
       redirect_to :login and return
     end
-    logger.info "user=========%s" % @current_user.try(:username)
-
-    logger.debug "path=====%s" % request.fullpath
+    logger.info "current partner=========%s" % @current_partner.try(:login)
   end
   
-  def check_init
-    case @current_user.setting.status
-    when 'new_user'
-      redirect_to :init_step_one and return
-    when 'binded'
-      redirect_to :init_step_two and return
-    end
-  end
-
 end

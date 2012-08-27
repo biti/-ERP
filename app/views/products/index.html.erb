@@ -52,12 +52,11 @@
     <tr>
       <td colspan='2'>
         <input type='checkbox' data-id='<%=item.id%>'/>&nbsp;&nbsp;
-        <%= raw human_platform(item.platform_id) %>&nbsp;
-        <%= item.outer_id %>
+        <%= item.custom_id %>
       </td>
       <td><strong><%= item.name %></strong></td>
       <td><%= item.price %></td>
-      <td><%= item.num_sell %></td>
+      <td><%= item.sell_num %></td>
       <td><%= item.num %></td>
       <td>
         <%= link_to '调整库存', edit_inventory_product_path(item.id) + '?return_url=' + products_path %>

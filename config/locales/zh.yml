@@ -36,23 +36,21 @@ zh:
 
   activerecord:
     attributes:
-      dan:
-        name: "品名"
-        purchaser: "责任人"
-        partner_name: '商家名称'
-        partner_tel: '商家电话'
-        price: '原价'
-        base_price: '结算价'
-        online_price: '上线价'
-        online_time: '排期'
+      product:
+        name: "产品名称"
+        title: "产品标题"
+        market_price: '商场价'
+        price: '售卖价'
+        custom_id: '自定义编码'
+        num: '总库存'
       supplier:
         brand: "品牌名称"
         company: "公司名称"
         eshop: '网址/网店地址'
         status: '跟进状态'
         buyer_id: '指派采购'
-      user:
-        realname: "真实姓名"
+      partner:
+        login: "登录名"
         username: "用户名"
         password: '密码'
         password_confirmation: '确认密码'

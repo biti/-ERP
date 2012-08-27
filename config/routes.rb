@@ -115,15 +115,13 @@ Paidan::Application.routes.draw do
     resources :delivery_templates
   end
     
-  resources :users
-  match 'login' => 'users#login', :as => :login
-  match 'check_login' => 'users#check_login', :as => :check_login
-  match 'register' => 'users#register'
-  match 'logout' => 'users#logout', :as => :logout  
-  match 'init_step_one' => 'users#init_step_one'
-  match 'init_step_two' => 'users#init_step_two'
-  match 'init_sync' => 'users#init_sync'
+  resources :partners
   
+  match 'login' => 'partners#login', :as => :login
+  match 'check_login' => 'partners#check_login', :as => :check_login
+  match 'register' => 'partners#register'
+  match 'logout' => 'partners#logout', :as => :logout  
+
   match 'import' =>  'orders#import'
   match 'do_import' => 'orders#do_import'
   match 'import_sent' =>  'orders#import_sent'

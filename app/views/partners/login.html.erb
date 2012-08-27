@@ -9,12 +9,12 @@
   </div>
 <% end %>
 
-<%= form_for(@user, :url => check_login_path, :html => {:class => 'form-horizontal'}) do |f| %>
+<%= form_for(@partner, :url => check_login_path, :html => {:class => 'form-horizontal'}) do |f| %>
   
   <div class="control-group">
     <label class="control-label" for="focusedInput">用户名</label> 
     <div class="controls">
-      <%= f.text_field :username, :class => 'span2' %>
+      <%= f.text_field :login, :class => 'span2' %>
     </div>
   </div>
 

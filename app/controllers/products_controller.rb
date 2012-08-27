@@ -4,7 +4,7 @@ class ProductsController < ApplicationController
   before_filter :filter_products, :only => [:index, :instock, :smart_sale]
   
   def filter_products
-    @products = @current_user.products.includes(:skus).order('id DESC').paginate(:page => params[:page], :per_page => 20)
+    @products = @current_partner.products.includes(:skus).order('id DESC').paginate(:page => params[:page], :per_page => 20)
 
     unless params[:q].blank?
       @products = @products.where("outer_id = '#{params[:q].strip}' or name like '%#{params[:q].strip}%'")
@@ -19,7 +19,7 @@ class ProductsController < ApplicationController
   end
   
   def index  
-    @products = @products.where(:status => Product::STATUS[:onsale][:value])
+    # @products = @products.where(:status => Product::STATUS[:onsale][:value])
     
     respond_to do |format|
       format.html # index.html.erb
@@ -84,7 +84,7 @@ class ProductsController < ApplicationController
   
   def new
     @product = Product.new
-    @product.build_detail
+    @product.build_content
 
     respond_to do |format|
       format.html # new.html.erb
@@ -98,7 +98,7 @@ class ProductsController < ApplicationController
   
   def create
     @product = Product.new(params[:product])
-    @product.user_id = @current_user.id
+    @product.partner_id = @current_partner.id
 
     respond_to do |format|
       if @product.save

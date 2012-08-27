@@ -10,27 +10,33 @@
     <% end %>
 
     <h3>1.基本信息</h3><br/>
-    <div class="control-group"><label class="control-label">商品名称</label>
+    <div class="control-group"><label class="control-label">产品名称（短标题）</label>
       <div class="controls">
         <%= f.text_field :name, :class => 'span3 ' %>
       </div>
     </div>
     
-    <div class="control-group"><label class="control-label">编码</label>
+    <div class="control-group"><label class="control-label">产品长标题</label>
       <div class="controls">
-        <%= f.text_field :no, :class => 'span2' %>
+        <%= f.text_field :title, :class => 'span5 ' %>
       </div>
     </div>
     
-    <div class="control-group"><label class="control-label">卖价</label>
+    <div class="control-group"><label class="control-label">自定义编码</label>
       <div class="controls">
-        <%= f.text_field :price, :class => 'span1' %>
+        <%= f.text_field :custom_id, :class => 'span1' %>
       </div>
     </div>
 
-    <div class="control-group"><label class="control-label">成本价</label>
+    <div class="control-group"><label class="control-label">商场价</label>
       <div class="controls">
-        <%= f.text_field :cost_price, :class => 'span1' %>
+        <%= f.text_field :market_price, :class => 'span1' %>
+      </div>
+    </div>
+    
+    <div class="control-group"><label class="control-label">售卖价</label>
+      <div class="controls">
+        <%= f.text_field :price, :class => 'span1' %>
       </div>
     </div>
     
@@ -42,8 +48,8 @@
     
     <div class="control-group"><label class="control-label">详细描述</label>
       <div class="controls">
-        <%= f.fields_for :detail do |builder| %>
-          <%= builder.text_area :body, :size => '20x25', :style => 'width:550px;' %>
+        <%= f.fields_for :content do |builder| %>
+          <%= builder.text_area :description, :size => '20x25', :style => 'width:550px;' %>
         <% end %>
       </div>
     </div>
