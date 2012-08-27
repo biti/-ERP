@@ -1,0 +1,18 @@
+
+<div class="well" style="padding: 12px 0;">
+  <ul class="nav nav-list">
+    
+    <li class="<%= ['index', 'show', 'edit'].include?(action_name) ? 'active' : '' %>">
+      <a href="/customers"><i class="icon-white "></i> 客户管理 </a>
+    </li>
+    <li class="<%= action_name == 'inde' ? 'active' : '' %>">
+      <a href="/customers"><i class="icon-white "></i> 客户关怀 </a>
+    </li>
+    <li class="<%= action_name == 'level_setting' ? 'active' : '' %>">
+      <a href="/customers/level_setting"><i class="icon-white "></i> 客户级别定义 </a>
+    </li>
+  </ul>
+</div>
+
+<%= render 'shared/bulletin_board' %>
+<%= render 'shared/fast_tools' %>

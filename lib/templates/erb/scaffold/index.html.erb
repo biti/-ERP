@@ -1,0 +1,24 @@
+<%%= content_for :sitemap do %>
+<span class="current">列表</span>
+<%% end %>
+<%%= render 'base' %>
+<div class="tools">
+  <a href="<%%= <%= plural_table_name %>_path %>" class="btn small">查看所有</a>
+  <a href="<%%= new_<%= singular_table_name %>_path %>" class="btn small success">新建</a>
+</div>
+
+<div id="<%= plural_table_name %>">
+  <%%= grid(@<%= plural_file_name %>, :show_filters => :always) do |g|
+    g.column :column_name => '', :attribute_name => 'id', :no_filter => true
+<% for attribute in attributes -%>
+    g.column :column_name => '<%= attribute.name %>', :attribute_name => '<%= attribute.name %>'
+<% end -%>
+    g.column :column_name => '创建时间', :attribute_name => 'created_at'
+    g.column :column_name => '操作' do |c|
+      raw "#{link_to '修改', edit_<%= singular_table_name %>_path(c.id)}
+      #{link_to '删除', <%= singular_table_name %>_path(c.id), :method => :delete, :confirm => '确定要删除吗?'}"
+    end
+  end %>
+</div>
+
+

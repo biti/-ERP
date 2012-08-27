@@ -1,0 +1,16 @@
+
+<div class="well" style="padding: 12px 0;">
+  <ul class="nav nav-list">
+    <li class="<%= action_name == 'index' ? 'active' : '' %>">
+      <a href="/settings"><i class="icon-white "></i> 店铺账号绑定 </a>
+    </li>
+
+    <li class="<%= action_name == 'xx' ? 'active' : '' %>">
+      <a href="/settings/storehouses"><i class="icon-white "></i> 仓库设置 </a>
+    </li>
+
+  </ul>
+</div>
+
+<%= render 'shared/bulletin_board' %>
+<%= render 'shared/fast_tools' %>

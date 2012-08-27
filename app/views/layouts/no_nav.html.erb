@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>Smart ERP 好用的ERP</title>
+  <%= stylesheet_link_tag "application" %>  
+  <%= javascript_include_tag 'application' %>
+    
+  <%= csrf_meta_tags %>
+</head>
+
+<body>  
+  <!--[if lte IE 6]>
+  <div id="ie6-warning" style="color:red;font-size:18px">你正在使用的浏览器版本太低，将不能正常浏览本站。请 <a href="http://windows.microsoft.com/zh-CN/internet-explorer/downloads/ie">升级IE浏览器</a> 或使用 <a href="http://www.google.com/chrome/">Google Chrome</a> 浏览器。</div>
+  <![endif]-->
+  
+  <!-- Navbar ===================== -->
+  <div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container">
+
+        <a class="brand" href="/">Smart ERP</a>
+
+      </div>
+    </div>
+  </div>
+  <!-- Navbar end ===================== -->
+  
+  <div class='row'>
+    <ul class="breadcrumb">
+      <li class="first"><a href="/">首页</a><span class="divider">/</span></li>
+    </ul>
+  </div>
+  
+  <div class="container">
+    
+    <%= yield %>
+    
+    <footer class="footer">
+      <p class="pull-right"><a href="#">回到顶部</a></p>
+      <p>by <a href="http://www.sim-ulti.com" target="_blank">Simulti Soft</a></p>
+    </footer>
+  </div>
+  
+  <script>
+    jQuery(function($) {
+
+      
+    });
+  </script>
+  
+  <script type="text/javascript">
+    $(document).ready(function() {
+      <%= yield :javascript %>
+    });
+  </script>
+  
+  <script type="text/javascript"> $(function(){if($.browser.msie&&parseInt($.browser.version,10)===6){$('.row div[class^="span"]:last-child').addClass("last-child");$('[class="span"]').addClass("margin-left-20");$(':button[class="btn"], :reset[class="btn"], :submit[class="btn"], input[type="button"]').addClass("button-reset");$(":checkbox").addClass("input-checkbox");$('[class^="icon-"], [class=" icon-"]').addClass("icon-sprite");$(".pagination li:first-child a").addClass("pagination-first-child")}}) </script>
+  
+</body>
+</html>

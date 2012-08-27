@@ -1,0 +1,82 @@
+
+
+<%= form_for(shop, :url => '#', :html => {:id =>'bind-form',
+    :class => 'form-horizontal', :style => 'margin:0 0 0 0;'}) do |f| %>
+  <div class="modal hide" id="bind-paipai">  
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal">×</button>
+      <h3>请输入拍拍第三方平台账号信息：</h3>
+    </div>
+
+    <div class="modal-body">
+      <div class="alert alert-error hide">
+        <%= f.error_messages %>
+      </div>
+
+      <div class="control-group">
+        <label class="control-label">qq</label>
+        <div class="controls">
+          <%= f.text_field :qq, :class => 'span3 ' %>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label class="control-label">spid</label>
+        <div class="controls">
+          <%= f.text_field :spid, :class => 'span3 ' %>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label class="control-label">skey</label>
+        <div class="controls">
+          <%= f.text_field :skey, :class => 'span3 ' %>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label class="control-label">token</label>
+        <div class="controls">
+          <%= f.text_field :access_token, :class => 'span3 ' %>
+        </div>
+      </div>
+    </div>
+    
+    <div class="modal-footer">
+      <a href="#" class="btn" data-dismiss="modal">关闭</a>
+      <%= link_to " 保存 ", 'javascript:;', :id => 'bind-submit-button',:class => "btn btn-primary" %>
+    </div>
+  </div>
+  
+<% end %>
+
+<script>
+  jQuery(function($) {
+    var bindForm = $('#bind-form');
+    
+    $('#bind-submit-button').click(function() {
+      $('.alert-error').hide();
+      
+      $.ajax({
+        url: '/settings/shops/<%=shop.id%>',
+        type: 'PUT',
+        headers: {'X-CSRF-Token': '<%= form_authenticity_token.to_s %>'},
+        data: bindForm.serialize(),
+        success: function(result) {
+          if (result != 'success') {
+            $('.alert-error').html(result);
+            $('.alert-error').show();
+          }else {
+            $('#bind-paipai').modal('hide');
+            $('#platform-20 span').html("已绑定").attr('style', 'color:green');
+            $('#platform-20').parent().effect("highlight", {}, 2000); 
+          }
+        }
+      });
+      
+    });
+  });
+  
+</script>
+
+

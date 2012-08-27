@@ -1,0 +1,164 @@
+
+<div class='row'>
+  <div class='span2'>
+    <%= render 'sidebar' %>
+  </div>
+  
+  <div class='span10'>
+    <%= render 'nav_orders' %>
+    
+    <%= render 'filters', :option => :simple %>
+    
+    <h3 style='margin:7px 0;'>
+      总单数：<%= @orders.total_entries %>&nbsp;&nbsp;&nbsp;&nbsp;
+      总产品数：<%= @orders.total_entries %>
+    </h3>
+    
+    <%= link_to 'javascript:;', :class => 'show-option-button' do %>
+      <i class='icon-plus'></i>全部展开
+    <% end %>
+    
+    <table class="table">
+      <thead>
+        <tr>
+          <td colspan='8'>
+            <%= link_to '全选', 'javascript:;', :id => 'check-all-yes' %>
+            &nbsp;
+            <%= link_to '全不选', 'javascript:;', :id => 'check-all-no'%>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            
+            <%= link_to '批量发货', 'javascript:;', :id => 'check-all-yes', 
+              :class => 'btn ' %>&nbsp;&nbsp;&nbsp;&nbsp;
+
+            <%= link_to '批量评价', 'javascript:;', :id => 'check-all-yes', 
+              :class => 'btn ' %>&nbsp;&nbsp;&nbsp;&nbsp;
+
+            <%= link_to '批量xx', 'javascript:;', :id => 'check-all-yes', 
+              :class => 'btn ' %>&nbsp;&nbsp;&nbsp;&nbsp;
+          </td>
+        </tr>
+        
+        <tr style='background-color:#'>
+          <th width=''></th>
+          <th width=''>订单号</th>
+          <th width=''>收货人</th>
+          <th width='50'>买家</th>
+          <th width='70'>总金额</th>
+          <th width='180'>实收款</th>
+          <th width='80'>下单时间</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        <% @orders.each do |o| %>
+          <tr style='background-color:#F1F7FB'>
+            <td><%= check_box :order, :c %></td>
+            <td>
+              <!-- <%= link_to 'javascript:;', :class => 'toggle-button' do %>
+                <i class='icon-plus'></i>
+              <% end %> -->
+              
+              <%= o.outer_id %> 
+              &nbsp;&nbsp;
+              <span class="label" style='background-color:#F50'><%= Product::PLATFORMS[o.platform.to_sym] %></span>
+            </td>
+    
+            <td> 
+              <%= link_to 'javascript:;', :class => 'address-button', 
+                :rel => 'popover',
+                'data-content' => o.human_address, 
+                'data-original-title' => '物流信息' do %>
+                <%#= image_tag '/images/icons/address.png', :size => '15x15' %>
+                <%= o.name %> 
+              <% end %>
+            </td>
+            <td> <%= o.buyer_nick %> killer</td>
+            <td><%= o.total_fee %>1100.1</td>
+            <td><%= o.payment %>100.1</td>
+            <td><%= l o.order_time, :format => :simple %></td>
+            <td>
+              <%= link_to '添加产品', new_order_path(o.id) %>
+              <%= link_to '添加赠品', new_order_path(o.id) %>
+  
+              <%= link_to '关闭交易', close_order_path(o.id), :method => :post, :style => 'color:#999;', :confirm => '确定关闭吗?' %>
+
+            </td>
+          </tr>
+        
+          <tr style='display:;border:0px solid #F3F3F3;' class='items-content'>
+            <td colspan='8'>
+              <table id='order-items-table' class='table table-condensed' style='background-color:white;margin-bottom:0px;border: 0px solid #DDD;'>
+                <!-- <tr style='border-bottom: 1px solid #DDD;'>
+                  <td style='border-top: 0px'>产品：</td>
+                  <td style='border-top: 0px'>sku属性：</td>
+                  <td style='border-top: 0px'>单价：</td>
+                  <td style='border-top: 0px'>数量：</td>
+                  <td style='border-top: 0px'>总金额：</td>
+                  <td style='border-top: 0px'>实收款：</td>
+                  <td style='border-top: 0px'>操作：</td>
+                </tr> -->
+       
+                <% o.items.each do |item| %>
+                <tr style='border-bottom: 1px dashed #DDD;'>
+                  <td style='border-top: 0px;'><%=item.product_name%>相信范德萨袜子</td>
+                  <td style='border-top: 0px '><%=item.sku_properties_name%>蓝色122 红色1</td>
+                  <td style='border-top: 0px '>单价：<%=item.price%></td>
+                  <td style='border-top: 0px '>
+                    <input type='text' style='height:14px;width:40px' value='<%=item.quantity%>'/>
+                  </td>
+                  <td style='border-top: 0px '><%=item.total_fee%>100</td>
+                  <td style='border-top: 0px '><%=item.payment%>20.1</td>
+                  <td style='border-top: 0px '>
+                    <%= link_to '添加产品', new_order_path(o.id) %>
+                  </td>
+                </tr>
+                <% end %>
+              </table>
+            <td>
+          </tr>
+        <% end %>
+        
+      </tbody>
+    </table>
+
+    <%= will_paginate @orders, :previous_label => '上一页', :next_label => '下一页', 
+      :show_always => true, :class => 'digg_pagination' %>
+      
+  </div>
+</div>
+
+<script>
+  jQuery(function($) {
+    $('.show-option-button').click(function() {
+      $('.items-content').toggle();
+      
+      if($(this).children().first().attr('class') == 'icon-plus') {
+        $(this).html('<i class="icon-minus"></i>全部折叠');
+        $('.toggle-button i').attr('class', 'icon-minus');
+      }else {
+        $(this).html('<i class="icon-plus"></i>全部展开');
+        $('.toggle-button i').attr('class', 'icon-plus');
+      }
+      
+    });
+    
+    $(".toggle-button").click(function() {
+      var $this = $(this);
+      
+      $this.parent().parent().next().toggle();
+      
+      var icon = $this.children().first();
+      if(icon.attr('class') == 'icon-plus') {
+        icon.attr('class', 'icon-minus');
+      }else {
+        icon.attr('class', 'icon-plus');
+      }
+    });
+    
+    $('.address-button').popover({
+      'placement': 'right'
+    });
+  });
+</script>

@@ -1,0 +1,43 @@
+<h3 style='margin:7px 0;'>
+  总单数：<%= @orders.total_entries %>&nbsp;&nbsp;&nbsp;&nbsp;
+  总产品数：<%= @orders.total_entries %>
+</h3>
+    
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th width=''>运单号</th>
+      <th width='50'>收件人</th>
+      <th width='70'>电话</th>
+      <th width='180'>地址</th>
+      <th width='200'>规格</th>
+      <th width=''>总数</th>
+      <th width=''>快递公司</th>
+      <th width=''>平台</th>
+      <th width='80'>购买时间</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @orders.each do |o| %>
+    <tr>
+      <td> <%= o.delivery_no %> </td>
+      <td><%= o.name %></td>
+
+      <td> <%= o.phone %> </td>
+      <td> <%= o.address %> </td>
+      <td>
+      </td>
+      <td><%= o.total %></td>
+      <td><%= Order::DELIVERY_COMPANYS.find{ |item| item[:no] == o.delivery_company }.try(:[], :name) %></td>
+      <td><%= Product::PLATFORMS[o.platform.to_sym] %></td>
+      <td><%= l o.order_time %></td>
+
+    </tr>
+    <% end %>
+
+  </tbody>
+</table>
+
+<%= will_paginate @orders, :previous_label => '上一页', :next_label => '下一页', 
+  :show_always => true, :class => 'digg_pagination' %>

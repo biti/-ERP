@@ -1,0 +1,30 @@
+<h2 style='margin:5px 0 5px 0;color:#999;'>
+  用户详情
+</h2>
+
+<%= link_to '返回', users_url, :class => '' %>
+
+<br/><br/>
+
+<div id="dan">
+  <p>
+    <b>真实姓名：</b>
+    <%= @user.realname %>
+  </p>
+  
+  <p>
+    <b>用户名：</b>
+    <%= @user.username %>
+  </p>
+
+  <p>
+    <b>权限：</b>
+    <%= @user.render_permissions %>
+  </p>
+
+  <p>
+    <b>密码：</b>
+    <%= @user.password %>
+  </p>
+
+</div>

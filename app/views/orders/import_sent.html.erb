@@ -1,0 +1,39 @@
+<%= render 'base' %>
+
+<h2>
+  导入已发货订单
+</h2>
+
+<%= return_url %><br/>
+
+<%= form_for(@order, :url => do_import_sent_path, :html => {:class => 'form-horizontal'}) do |f| %>
+
+  <%= hidden_field_tag 'return_url', params[:return_url]%>
+  
+  <% if params[:notice] %>
+    <div class="alert alert-error">
+      <%= params[:notice] %>
+    </div>
+  <% end %>
+  
+  <div class="control-group">
+    <label class="control-label">快递公司</label>
+    <div class="controls">
+      <select name='order[delivery_company]' class='span2'>
+        <option value='10'>圆通</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <label class="control-label">订单表格</label>
+    <div class="controls">
+      <%= f.file_field :file, :class => 'span2 ' %>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <%= f.submit "提交", :class => "btn btn-primary" %>
+  </div>
+<% end %>
+

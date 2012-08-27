@@ -1,0 +1,96 @@
+zh:
+  will_paginate:
+    page_gap: '...'
+  date:
+    order:
+      - :year
+      - :month
+      - :day
+
+    formats:
+      default: "%Y年%m月"
+
+    day_names: ["周日", "周一", "周二", "周三", "周四", "周五", "周六"]
+    abbr_day_names: ["周日", "周一", "周二", "周三", "周四", "周五", "周六"]
+
+    # Don't forget the nil at the beginning; there's no such thing as a 0th month
+    month_names: ["~", "1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"]
+    abbr_month_names: ["~", "1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"]
+
+  time:
+    formats:
+      default: "%Y/%m/%d %H:%M:%S"
+      short: "%Y年%m月%d日"
+      simple: "%m-%d %H:%M"
+    
+  wice_grid:
+    show_filter_tooltip: Show filter
+    hide_filter_tooltip: Hide filter
+    csv_export_tooltip: Export to CSV
+    filter_tooltip: Filter
+    reset_filter_tooltip: Reset
+    boolean_filter_true_label: "是"
+    boolean_filter_false_label: "否"
+    previous_label: « 上一页 
+    next_label: 下一页 »
+
+  activerecord:
+    attributes:
+      dan:
+        name: "品名"
+        purchaser: "责任人"
+        partner_name: '商家名称'
+        partner_tel: '商家电话'
+        price: '原价'
+        base_price: '结算价'
+        online_price: '上线价'
+        online_time: '排期'
+      supplier:
+        brand: "品牌名称"
+        company: "公司名称"
+        eshop: '网址/网店地址'
+        status: '跟进状态'
+        buyer_id: '指派采购'
+      user:
+        realname: "真实姓名"
+        username: "用户名"
+        password: '密码'
+        password_confirmation: '确认密码'
+        phone: '电话'
+        register_code: '注册码'
+      delivery_template:
+        name: '模板名称'
+        template: '模板'
+        width: '宽度'
+        height: '高度'
+          
+    errors:
+      template:
+        body: '填写有误'
+        header:  
+          one: ''
+          other: ""
+      messages:
+        inclusion: "is not included in the list"
+        exclusion: "is reserved"
+        invalid: "is invalid"
+        confirmation: "两次输入不一致"
+        accepted: "must be accepted"
+        empty: "can't be empty"
+        blank: "不能为空"
+        too_long: "is too long (maximum is {{count}} characters)"
+        too_short: "is too short (minimum is {{count}} characters)"
+        wrong_length: "is the wrong length (should be {{count}} characters)"
+        taken: "已经被占用了"
+        not_a_number: "必须为数字"
+        greater_than: "must be greater than {{count}}"
+        greater_than_or_equal_to: "must be greater than or equal to {{count}}"
+        equal_to: "must be equal to {{count}}"
+        less_than: "must be less than {{count}}"
+        less_than_or_equal_to: "must be less than or equal to {{count}}"
+        odd: "must be odd"
+        even: "must be even"
+
+
+
+

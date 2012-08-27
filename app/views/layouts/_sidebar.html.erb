@@ -1,0 +1,33 @@
+
+<div class="well" style="padding: 12px 0;">
+  <ul class="nav nav-list">
+    
+    <li class="header">交易管理</li>
+    
+    <li class="<%= controller_name == 'orders' ? 'active' : '' %>">
+      <a href="#"><i class="icon-white "></i> 订单处理 </a>
+    </li>
+
+    <li class='<%= controller_name == 'deliveries' ? 'active' : '' %>'>
+      <a href="#"><i class="icon-white "></i> 发货 </a>
+    </li>
+
+    <li class='<%= action_name == 'xxx' ? 'active' : '' %>'>
+      <a href="#"><i class="icon-white "></i> 退换货 </a>
+    </li>
+    
+    <li class="divider"></li>
+    <li class="header">商品管理</li>
+    
+    <li class='<%= action_name == 'new' ? 'active' : '' %>'>
+      <a href="/products/new"><i class="icon-white "></i> 我要卖 </a>
+    </li>
+
+    <li class='<%= controller_name == 'products' and action_name == 'index' ? 'active' : '' %>'>
+      <a href="/products"><i class="icon-white "></i> 商品管理 </a>
+    </li>
+
+  </ul>
+</div>
+
+

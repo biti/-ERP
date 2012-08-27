@@ -1,0 +1,133 @@
+<h2 style='margin:5px 0 5px 0;color:#999;'>
+  <%= params[:date]%> 核对单子
+</h2>
+<%= return_url %>
+
+<br/><br/>
+
+<div id="dan" class="form">
+<%= form_for(@dan, 
+  :url => save_check_dan_path(@dan), :html => {:class => 'form-horizontal'}) do |f| %>
+  
+  <%= hidden_field_tag 'return_url', params[:return_url]%>
+
+  <% unless f.error_messages.blank? %>
+    <div class="alert alert-error">
+      <%= f.error_messages %>
+    </div>
+  <% end %>
+
+  <div class="alert">
+    注意：以下内容只能由助理填写
+  </div>
+
+  <div class="inputs">
+
+    <div class="control-group">
+      <label class="control-label">样品已通过</label>
+      <div class="controls">
+      <%= f.check_box :sample_pass %>
+      </div>
+    </div>
+        
+    <div class="control-group">
+      <label class="control-label">公司状态已通过</label>
+      <div class="controls">
+      <%= f.check_box :company_pass %>
+      </div>
+    </div>
+    
+    <div class="control-group">
+      <label class="control-label">资料已通过</label>
+      <div class="controls">
+      <%= f.check_box :valid_qualification %>
+      </div>
+    </div>
+    
+    <div class="control-group">
+      <label class="control-label">OA id</label>
+      <div class="controls">
+      <%= f.text_field :oa_id, :class => 'span2' %>
+      </div>
+    </div>
+    
+    <div class="control-group">
+      <label class="control-label">OA状态已通过</label>
+      <div class="controls">
+      <%= f.check_box :oa_pass %>
+      </div>
+    </div>
+    
+    <div class="control-group">
+      <label class="control-label">合同id</label>
+      <div class="controls">
+      <%= f.text_field :contract_id, :class => 'span2' %>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <label class="control-label">合同已通过</label>
+      <div class="controls">
+      <%= f.check_box :contract_pass %>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <label class="control-label">即将上线！</label>
+      <div class="controls">
+      <%= f.check_box :all_pass %>
+      </div>
+    </div>
+        
+    <div class="control-group">
+      <label class="control-label">上线链接</label>
+      <div class="controls">
+      <%= f.text_field :link, :class => 'span4' %>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <label class="control-label">备注</label>
+      <div class="controls">
+        <%= f.text_area :remark, :size => '2x4', :class => 'span4' %>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <%= f.submit "提交", :class => "btn btn-primary" %> 或者 
+    <%= link_to '返回', dans_path + '?date=' + params[:date] %>
+  </div>
+<% end %>
+</div>
+
+<script>
+  jQuery(function($) {
+    var allChecks = $("input[type='checkbox']");
+    
+    var checkAll = $('#dan_all_pass');
+    var check1 = $('#dan_company_pass');
+    var check2 = $('#dan_valid_qualification');
+    var check3 = $('#dan_oa_pass');
+    var check4 = $('#dan_contract_pass');
+    var check5 = $('#dan_sample_pass');
+        
+    allChecks.click(function() {
+      if($(this).attr('checked') != 'checked') {
+        checkAll.attr('checked', false);
+      }
+    });
+    
+    checkAll.click(function(){
+      
+      if( check1.attr('checked') != 'checked' || 
+          check2.attr('checked') != 'checked' || 
+          check3.attr('checked') != 'checked' || 
+          check4.attr('checked') != 'checked' || 
+          check5.attr('checked') != 'checked' ) {
+            
+        $(this).attr('checked', false);
+      }
+    });
+  });
+</script>

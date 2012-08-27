@@ -1,0 +1,72 @@
+App.Views.Dashboard.Index = 
+  init: -> 
+    this.render()
+  
+  render: ->
+    $.getJSON '/dashboard/recent_datas.json', (result) ->
+
+      orderDatas = _.map(result.datas, (item) -> item.total_orders)
+      saleDatas = _.map(result.datas, (item) -> ~~item.total_sales)
+      customerDatas = _.map(result.datas, (item) -> return item.total_customers)
+
+      options1 =
+        chart:
+          renderTo: 'chart1'
+          height: 280
+
+        title:
+          text: '最近七日订单量'
+
+        xAxis:
+          categories: result.days
+        
+        yAxis:
+          title: ''
+
+        series: [{
+          name:'订单量'
+          data: orderDatas
+        }]
+        
+      options2 =
+        chart:
+          renderTo: 'chart2'
+          height: 280
+
+        title:
+          text: '最近七日销售额'
+
+        xAxis:
+          categories: result.days
+             
+        yAxis:
+          title: ''
+
+        series: [{
+          name:'销售额'
+          data: saleDatas
+        }]
+          
+
+      options3 =
+        chart:
+          renderTo: 'chart3'
+          height: 280
+
+        title:
+          text: '最近七日下单客户'
+
+        xAxis:
+          categories: result.days
+
+        yAxis:
+          title: ''
+
+        series: [{
+          name:'客户数'
+          data: customerDatas
+        }]
+        
+      new Highcharts.Chart options1
+      new Highcharts.Chart options2
+      new Highcharts.Chart options3

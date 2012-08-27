@@ -1,0 +1,55 @@
+<div class='row'>
+  <div class='span2'>
+    <%= render 'sidebar' %>
+  </div>  
+  
+  <div class='span10'>
+
+    <div class="tools" style='margin:10px 0;'>
+      <%= link_to '返回库存管理首页', products_path, :class => "" %>&nbsp;&nbsp;
+      <%= link_to '修改', edit_product_path(@product), :class => "" %>
+    </div>
+    <br/>
+
+    <%= form_for :skus, :url => '', do |f| %>
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th width='8%'>编码</th>
+        <th width='30%' colspan='2' align='center'>产品名称</th>
+        <th width='10%'>总库存</th>
+        <th width='7%'>总库存</th>
+        <th width=''>各平台库存</th>
+        <th width='10%'> </th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <% @products.each do |item| %>
+      <tr>
+        <td><%= item.outer_id %></td>
+        <td><%= image_tag item.image_url, :size => '50x50' %></td>
+        <td><strong><%= item.name %></strong></td>
+        <td><%= item.price %></td>
+        <td><%= item.total %></td>
+        <td> 
+          <% item.skus.each do |sku| %>
+            <%= sku.inspect %>
+          <% end %>
+          淘宝：1000；京东：234；范德萨：4333
+        </td>
+    
+        <td>
+          <div>
+            <%= link_to '详细库存', product_path(item.id) %><br/>
+          </div>
+        </td>
+      </tr>
+      <% end %>
+
+      </tbody>
+    </table>
+    <% end %>
+    
+  </div>
+</div>

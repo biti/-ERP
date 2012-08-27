@@ -1,0 +1,70 @@
+
+<h2 style='margin:5px 0 5px 0;color:#999;'>
+  供应商跟进
+</h2>
+
+<% if @current_user.can_edit_bill? %>
+  <%= link_to '添加', new_supplier_path, :class=> 'btn btn-info' %> &nbsp; &nbsp;
+  <br/><br/>
+<% end %>
+
+<%= render 'filters' %>
+
+<div id="dans">
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th width=''>品牌名</th>
+      <th width=''>公司名</th>
+      <th width=''>网址（网店地址）</th>
+      <th width=''>采购</th>
+      <th width=''>跟进状态</th>
+      <th width=''>备注</th>
+      <th width=''> </th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <% @suppliers.each do |s| %>
+    <tr>
+      <td> <%= s.brand %> </td>
+      <td> <%= s.company %> </td>
+      <td> <%= link_to s.eshop, s.eshop, :target => '_blank' %> </td>
+      <td> <%= s.try(:buyer).try(:realname) %> </td>
+      <td> <%= raw s.human_status %> </td>      
+      <td> <%= truncate s.remark, :length => 40 %></td>     
+
+      <td>
+        <div class='' style='display: inline;'>
+          <%= link_to '详情', supplier_path(s.id) %>
+          <% if @current_user.role_id.to_i == User::ROLES[:admin] %>
+            <%= link_to '修改', edit_supplier_path(s.id) %>
+          <% end %>
+          <% if @current_user.can_edit_bill? %>
+          <%= link_to '跟进', follow_supplier_path(s.id) %>
+          <% end %>
+          
+            &nbsp;&nbsp;
+          <% if @current_user.role_id.to_i == User::ROLES[:admin] %>
+            <%= link_to '删除', supplier_path(s.id), :method=>:delete, :style => 'color:#999;', :confirm => '确定删除吗?' %>
+          <% end %>
+        </div>
+      </td>
+    </tr>
+    <% end %>
+
+    </tbody>
+  </table>
+
+</div>
+
+<%= will_paginate @suppliers, :previous_label => '上一页', :next_label => '下一页', 
+  :show_always => true, :class => 'digg_pagination' %>
+
+<script type="text/javascript" charset="utf-8">
+  jQuery(function($) {
+    
+  });
+</script>
+
+

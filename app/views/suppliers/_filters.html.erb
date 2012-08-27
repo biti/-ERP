@@ -1,0 +1,45 @@
+
+<div stylr=''>
+  品牌名称：
+  <%= text_field :filters, :brand, :class => 'span2', :value => params[:filters].try(:[], :brand) %>
+
+  <% if @current_user.role_id.to_i == User::ROLES[:admin] %>
+  采购：
+  <%= select :filters, :buyer_id, @users.map {|u| [u.realname, u.id] }, 
+    { :selected => params[:filters].try(:[], :buyer_id), :include_blank => '不限' }, :class => 'span1', :style => 'width:80px' %>
+  <% end %>
+
+  跟进状态：
+  <%= select :filters, :status, Supplier::STATUS.invert.to_a, 
+      { :selected => params[:filters].try(:[], :status), :include_blank => '不限' }, :class => 'span1', :style => 'width:80px' %>
+
+  &nbsp;&nbsp;
+  <% link_to '查询', new_supplier_path, :class=> 'btn' %> &nbsp; &nbsp;
+</div>
+
+<br/>
+
+<script type="text/javascript">
+  $(function(){
+    
+    var filters = $('#filters_brand, #filters_buyer_id, #filters_status');
+    
+    var getUrl = function(clickedEl) {
+      var params = []
+      
+      filters.each(function() {
+        var $this = $(this);
+        
+        if($this.val() != '') {
+          params.push( $this.attr('name') + '=' + $this.val() );
+        }
+      });
+      return "/suppliers?" + params.join('&');
+    }
+    
+    filters.change(function() {
+      window.location = getUrl($(this));
+    });
+   
+  });
+</script>

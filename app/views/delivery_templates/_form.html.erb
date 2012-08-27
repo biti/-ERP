@@ -1,0 +1,207 @@
+
+<div id="product-form" class="form">
+  <%= form_for(@template, 
+    :url => (@template.id.blank? ? delivery_templates_path : delivery_template_path(@template)), 
+    :html => {:class => 'form-horizontal'}) do |f| %>
+  
+    <% unless f.error_messages.blank? %>
+      <div class="alert alert-error">
+        <%= f.error_messages %>
+      </div>
+    <% end %>
+        
+    <div class="control-group"><label class="control-label">选择模板</label>
+      <div class="controls">
+        <%= f.select :template, LOGISTICS_COMPANIES.map{|k, v| [v[:name], k]}, :class => 'input-small' %>
+      </div>
+    </div>
+    
+    <div class="control-group"><label class="control-label">模板名称</label>
+      <div class="controls">
+        <%= f.text_field :name, :class => 'input-medium' %>
+      </div>
+    </div>
+
+    <!-- <div class="control-group"><label class="control-label">物流公司</label>
+      <div class="controls">
+        <%= f.select :company, LOGISTICS_COMPANIES.map{|k, v| [v[:name], k]}, 
+          {:include_blank => true}, :class => 'input-small' %>
+      </div>
+    </div> -->
+    
+    <!-- <div class="control-group"><label class="control-label">运单图片</label>
+      <div class="controls">
+        <%= file_field_tag :file, :class => 'span1' %>
+      </div>
+    </div> -->
+
+    <div class="control-group"><label class="control-label">宽度</label>
+      <div class="controls">
+        <%= f.text_field :width, :class => 'input-mini' %>mm(毫米)
+      </div>
+    </div>
+
+    <div class="control-group"><label class="control-label">高度</label>
+      <div class="controls">
+        <%= f.text_field :height, :class => 'input-mini' %>mm(毫米)
+      </div>
+    </div>
+    
+    <div class="control-group"><label class="control-label">默认</label>
+      <div class="controls">
+        <%= f.check_box :default, :class => 'input-mini' %>
+      </div>
+    </div>
+    
+    <div class="control-group"><label class="control-label">选择打印项</label>
+      <div class="controls" id='template-fields-select'>
+        <% TEMPLATE_OPTIONS.each_with_index do |item, index| %>
+          <label class="checkbox inline" style=''>
+            <input type="checkbox" data-id='<%=item[0]%>' 
+              name='fields[<%=item[0]%>]' value="<%=item[0]%>"/>
+            <span><%= item[1] %></span>
+          </label>
+          <% if index%5 == 4 %>
+            <br/>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+    
+    <h4 style='margin-left:50px;'>打印偏移调整：</h4>
+    
+    <div id='template-container' class='hide' style='margin-left:50px;position: relative'>
+      <%= image_tag '#', :size => '766x424', :id => 'template-image' %>
+    </div>
+    
+    <div class="form-actions">
+      <%= f.submit " 保存　", :class => "btn btn-success" %>&nbsp;&nbsp;
+      <%= link_to '取消', products_path, :class => 'btn' %>
+    </div>
+  <% end %>
+</div>
+
+<script>
+  jQuery(function($) {
+    var templateContainer = $('#template-container');
+    var templateImage = $('#template-image');
+    var templateSelect = $('#delivery_template_template');
+    var templateFieldsSelect = $('#template-fields-select');
+
+    // 更换图片
+    var changeTemplateImage = function(template) {
+      var imageUrl = '/images/templates/' + template + '.jpg';
+      templateImage.attr('src', imageUrl);
+      templateContainer.show();
+      
+      var input = $('<input type="hidden"/>')
+                    .attr('name', 'delivery_template[image_url]')
+                    .val( imageUrl );
+                    
+      templateContainer.append(input);
+    }
+    
+    // 更换打印选项
+    var changeTemplateFields = function(fields) {
+      templateFieldsSelect.find('input').attr('checked', false);
+      // var fields = _.find(TEMPLATES, function(t){ return t.ename == template; }).fields;
+
+      templateFieldsSelect.find('input').each(function() {
+        var $this = $(this);  
+
+        if( _.include(fields, $this.attr('data-id')) ) {
+          $this.attr('checked', true);
+        }
+      });
+    }
+    
+    // 得到一个元素的位置数据
+    var getPosition = function(el) {
+      // return 'width:' + el.css('width') + ';' + 'height:' + el.css('height') + ';'
+      //         + 'top:' + el.css('top') + ';' + 'left:' + el.css('left');
+      var result = '{' +
+        'name: "'   + el.attr('data-name') + '",' +
+        'width: "'  + el.css('width') + '",' +
+        'height: "' + el.css('height') + '",' +
+        'left: "'   + el.css('left') + '",' +
+        'top: "'    + el.css('top') + '"' +
+      '}';
+      return result;
+    }
+		
+    // 渲染编辑条
+    var renderLabel = function(option) {
+      var text = TEMPLATE_FIELDS[option.name];
+      var cssObj = {
+        'position': 'absolute',
+        'width': option.width, 
+        'height': option.height,
+        'top': option.top,
+        'left': option.left
+      };
+      
+      console.debug(option, option.name, text, cssObj);
+      var div = $('<div></div>')
+                  .addClass('draggable')
+                  .text(text)
+                  .attr('id', 'field-' + option.name)
+                  .attr('data-name', option.name)
+                  .css(cssObj);
+                  
+      div.draggable({
+        stop: function() {
+  				$('#field-position-' + option.name).val(getPosition(div));
+  			}
+      });
+      
+      var input = $('<input type="hidden"/>')
+                    .attr('id', 'field-position-' + option.name)
+                    .attr('name', 'field_position[' + option.name + ']')
+                    .val( getPosition(div) );
+                    
+      templateContainer.append(div);
+      templateContainer.append(input);
+    }
+
+    // 渲染打印项编辑条
+    var renderTemplateLabels = function(options) {
+      _.each(options, function(option) {
+        renderLabel(option);
+      });
+    }
+    
+    templateSelect.change(function() {
+      var $this = $(this);
+
+      templateContainer.find('.draggable').remove();
+      templateContainer.find('input').remove();
+      
+      changeTemplateImage($this.val());
+
+      var template = $this.val();
+
+      var fields = _.find(TEMPLATES, function(t){ return t.ename == template; }).fields;
+      changeTemplateFields(fields);
+      
+      var options = _.find(TEMPLATES, function(t){ return t.ename == template; }).options;
+      renderTemplateLabels(options);
+    });
+  
+    <% if action_name == 'new' %>
+      var defaultTemplate = templateSelect.val();
+      var fields = _.find(TEMPLATES, function(t){ return t.ename == defaultTemplate; }).fields;
+      var options = _.find(TEMPLATES, function(t){ return t.ename == defaultTemplate; }).options;      
+    <% else %>
+      var defaultTemplate = '<%=@template.template%>';
+      var fields = <%= raw @template.fields %>;
+      var options = <%= raw @options %>;
+    <% end %>
+      
+    changeTemplateImage(defaultTemplate);
+    changeTemplateFields(fields);
+    renderTemplateLabels(options);
+    
+  });
+  
+</script>
+

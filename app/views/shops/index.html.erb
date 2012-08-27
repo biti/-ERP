@@ -1,0 +1,30 @@
+
+<div class='row'>
+  <div class='span2'>
+    <%= render 'shared/settings_sidebar' %>
+  </div>  
+  
+  <div class='span10'>
+    <p></p>
+
+    <% if notice %>
+    <div class='alert'>
+      <%= notice %>
+    </div>
+    <% end %>
+    
+    <%= render 'table', :shops => @shops, :source_url => 'shops_path' %>
+  </div>
+</div>
+
+<script>
+  jQuery(function($) {
+  });
+  
+  if(top != this){
+    window.parent.eval('tb_remove()');
+    window.parent.location.reload();
+  }
+  
+</script>
+

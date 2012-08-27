@@ -1,0 +1,2 @@
+module DeliveryTemplatesHelper
+end

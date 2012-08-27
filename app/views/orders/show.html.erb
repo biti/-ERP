@@ -1,0 +1,116 @@
+<h2 style='margin:5px 0 5px 0;color:#999;'>
+  <%= params[:date]%> 单子详情
+</h2>
+
+<%= return_url %>
+
+<br/><br/>
+
+<% if notice %>
+  <div class="alert alert-success">
+    <%= notice %>
+  </div>
+<% end %>
+
+<div id="dan">
+    <p>
+    <b>品名：</b>
+    <%= @dan.name %>
+  </p>
+  <p>
+    <b>商品编号：</b>
+    <%= @dan.product_id %>
+  </p>
+    <p>
+    <b>责任人：</b>
+    <%= @dan.user.try(:realname) %>
+  </p>
+    <p>
+    <b>排期</b>
+    <%= @dan.online_time %>
+  </p>
+  <p>
+    <p>
+    <b>原价：</b>
+    <%= @dan.price %>
+  </p>
+  <p>
+    <p>
+    <b>底价（结算价）：</b>
+    <%= @dan.base_price %>
+  </p>
+  <p>
+    <p>
+    <b>上线价：</b>
+    <%= @dan.online_price %>
+  </p>
+
+    <p>
+    <b>商家名称：</b>
+    <%= @dan.partner_name %>
+  </p>
+    <p>
+    <b>商家qq：</b>
+    <%= @dan.partner_qq %>
+  </p>
+  <p>
+    <b>商家电话：</b>
+    <%= @dan.partner_tel %>
+  </p>
+  <p>
+    <b>商家客服电话：</b>
+    <%= @dan.partner_service_tel %>
+  </p>
+
+  <hr/>
+  
+  <p>
+    <b>页面提交id：</b>
+    <%= @dan.page_id %>
+  </p>
+    
+  <hr/>
+
+  <p>
+    <b>OA id：</b>
+    <%= @dan.oa_id %>
+  </p>
+    <p>
+    <b>合同编号：</b>
+    <%= @dan.contract_id %>
+  </p>
+  
+  <p>
+    <b>样品已通过：</b>
+    <%= raw @dan.sample_pass ? "<strong style='color:green'>通过</strong>" : "<strong style='color:red'>未过</strong>" %>
+  </p>
+  
+  <p>
+    <b>公司状态已通过：</b>
+    <%= raw @dan.company_pass ? "<strong style='color:green'>通过</strong>" : "<strong style='color:red'>未过</strong>" %>
+  </p>
+
+  <p>
+    <b>资料已通过：</b>
+    <%= raw @dan.valid_qualification ? "<strong style='color:green'>通过</strong>" : "<strong style='color:red'>未过</strong>" %>
+    </p>
+  <p>
+  <p>
+    <b>OA状态已通过：</b>
+    <%= raw @dan.oa_pass ? "<strong style='color:green'>通过</strong>" : "<strong style='color:red'>未过</strong>" %>
+  </p>
+  <p>
+    <b>合同已通过：</b>
+    <%= raw @dan.contract_pass ? "<strong style='color:green'>通过</strong>" : "<strong style='color:red'>未过</strong>" %>
+  </p>
+  <p>
+    <b>全部通过，即将上线？</b>
+    <%= raw @dan.all_pass ? "<strong style='color:green'>通过</strong>" : "<strong style='color:red'>未过</strong>" %>
+  </p>
+  <hr/>
+  
+  <p>
+    <b>备注：</b>
+    <%= @dan.remark %>
+  </p>
+</div>

@@ -1,0 +1,37 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/Fixtures.html
+
+one:
+  name: MyString
+  purchaser: MyString
+  product_name: MyString
+  online_time: 2012-02-24
+  partner_name: MyString
+  partner_qq: MyString
+  partner_tel: MyString
+  valid_qualification: false
+  partner_id: MyString
+  product_id: MyString
+  partner_no: MyString
+  oa_id: MyString
+  contract_id: MyString
+  has_image: false
+  remark: MyString
+  state: 1
+
+two:
+  name: MyString
+  purchaser: MyString
+  product_name: MyString
+  online_time: 2012-02-24
+  partner_name: MyString
+  partner_qq: MyString
+  partner_tel: MyString
+  valid_qualification: false
+  partner_id: MyString
+  product_id: MyString
+  partner_no: MyString
+  oa_id: MyString
+  contract_id: MyString
+  has_image: false
+  remark: MyString
+  state: 1

@@ -1,0 +1,51 @@
+
+<div class='row'>
+  <div class='span2'>
+    <%= render 'sidebar' %>
+  </div>
+  
+  <div class='span10'>
+    <%= render 'nav_orders', :active => :no_pay %>
+    
+    <%= render 'filters' %>
+    
+    <%= render 'table' %>
+  </div>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+  jQuery(function($) {
+    
+    var createActionEl = function(text, el) {
+
+      return '<div style=""><input type="button" class="btn btn-small" value="' + text + '"></input></div>';
+    };
+    
+    var actionEls = $('.pass-actions');
+    
+    actionEls.click(function() {
+      var $this = $(this);
+      var old = $this.attr('checked');
+
+      if (old == 'checked') {
+        var toggle = 't';
+      } else {
+        var toggle = 'f';
+      }
+
+      var url='/dans/' + $this.attr('data_id') + '/toggle_pass?' + $this.attr('name')  + '=' +toggle;
+
+      $.get(url, function(resp) {
+        if (resp == 'ok') {
+          if ($this.attr('checked') == 'checked') {
+            $this.parent().css({'background-color': 'green'});
+          } else {
+            $this.parent().css({'background-color': 'red'});
+          }
+        }
+      });
+    });
+    
+  });
+</script>
+

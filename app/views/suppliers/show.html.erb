@@ -1,0 +1,42 @@
+<h2 style='margin:5px 0 5px 0;color:#999;'>
+  详情
+</h2>
+
+<%= return_suppliers_url %>
+
+<br/><br/>
+
+<% if notice %>
+  <div class="alert alert-success">
+    <%= notice %>
+  </div>
+<% end %>
+
+<div id="supplier">
+  <p>
+    <b>品牌名称：</b>
+    <%= @supplier.brand %>
+  </p>
+
+  <p>
+    <b>公司：</b>
+    <%= @supplier.company %>
+  </p>
+  <p>
+    <b>网址/网店地址：</b>
+    <%= @supplier.eshop %>
+  </p>
+  <p>
+    <b>采购：</b>
+    <%= @supplier.try(:buyer).try(:realname) %>
+  </p>
+
+  <p>
+    <b>跟进状态：</b>
+    <%= raw @supplier.human_status %>
+  </p>
+  <p>
+    <b>备注：</b>
+    <%= text_area :xxx, :xxx, :value => @supplier.remark, :size => '2x12', :readonly => 'true', :class => 'span4' %>
+  </p>
+</div>

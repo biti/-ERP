@@ -1,0 +1,17 @@
+
+<div class='row'>
+  <div class='span2'>
+    <%= render 'sidebar' %>
+  </div>
+  
+  <div class='span10'>
+    <div class="tools" style='margin:10px 0;'>
+      <%= link_to '<-返回客户管理页', customers_path %>
+    </div>
+    
+    <h3>修改顾客信息</h3>
+    <br/>
+
+    <%= render 'form' %>
+  </div>
+</div>

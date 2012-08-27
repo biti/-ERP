@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/Fixtures.html
+
+one:
+  access_token: MyString
+  shop_name: MyString
+  shop_id: MyString
+
+two:
+  access_token: MyString
+  shop_name: MyString
+  shop_id: MyString

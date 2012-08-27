@@ -1,0 +1,34 @@
+
+<div id="header">
+  <div id="db-nav-music" class="site-nav">
+    <div class="bd">
+      <div class="site-nav-items nav-logged-in">
+        <ul>             
+          <li><a href="/dans">排单</a></li>
+          <li><a href="/calendar">日历</a></li>
+          
+          <% if @current_user.role_id.to_i == User::ROLES[:admin] or @current_user.can_edit_bill? %>
+          <li><a href="/suppliers">供应商跟进</a></li>
+          <% end %>
+          
+          <li><a href="/users">用户</a></li>
+          <li><a href="javascript:;">|</a></li>
+          <% if @current_user %>
+          <li>
+            <a class='hack-a' style='text-decoration: none;color:#F89913;'>
+              欢迎，<%= @current_user.realname %>
+            </a>
+          </li>
+          <% end %>
+          <li><a href="/logout">注销</a></li>
+        </ul>
+      </div>
+      <!--
+      <div class="nav-srh">
+        <a href='#'>注销</a>
+        <a href='#'>注销</a>
+      </div>
+      -->
+    </div>
+  </div>
+</div>

@@ -1,0 +1,39 @@
+<div class='row'>
+  <div class='span2'>
+    <%= render 'sidebar' %>
+  </div>  
+  
+  <div class='span10'>
+    <div style='margin:15px 0;'>
+      <h1>
+        <span id='step1'>1. 选择商品</span>
+          ->
+        <span id='step1'>2. 设置上下架计划</span>
+      </h1>
+    </div>
+  
+    <%= link_to '<-上一步', smart_sale_products_path %>
+    
+    <%= form_for(:task, :url => '#', :html => {:class => 'form-inline'}) do |f| %>
+
+      <% unless f.error_messages.blank? %>
+        <div class="alert alert-error">
+          <%= f.error_messages %>
+        </div>
+      <% end %>
+
+      
+      <div class="control-group" style='margin:20px 0 15px 6px;'>
+        
+        <div class="controls">
+          <label class="control-label">计划名称：</label>
+          <%= f.text_field :name, :class => 'span2' %>
+        </div>
+      </div>
+
+      <%= image_tag 'edit-sale.png' %><br/>
+      
+      <%= f.submit ' 保存 ', :class => 'btn btn-success', :style => 'margin-left:300px;' %>
+    <% end %>
+  </div>
+</div>

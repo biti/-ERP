@@ -1,0 +1,22 @@
+
+<%= form_for(:order, :url => do_import_path, :html => {:class => ''}) do |f| %>
+
+  <%= hidden_field_tag 'return_url', params[:return_url]%>
+  
+  <% if params[:notice] %>
+    <div class="alert alert-error">
+      <%= params[:notice] %>
+    </div>
+  <% end %>
+  
+  <img src='/images/platform_logos/<%=platform%>.png' height='30' width='120' />&nbsp; &nbsp;
+  导入淘宝订单： 
+  
+  <%= hidden_field_tag :platform, platform %>
+  
+  <%= f.file_field :file, :class => 'span2 ' %>
+
+  <%= f.submit " 导入 ", :class => "btn btn-success" %>
+
+<% end %>
+

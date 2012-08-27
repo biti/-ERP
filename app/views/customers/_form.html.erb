@@ -1,0 +1,38 @@
+
+<div id="product-form" class="form">
+  <%= form_for(@customer, 
+    :url => (@customer.id.blank? ? customers_path : customer_path(@customer)), :html => {:class => 'form-horizontal'}) do |f| %>
+  
+    <% unless f.error_messages.blank? %>
+      <div class="alert alert-error">
+        <%= f.error_messages %>
+      </div>
+    <% end %>
+
+    <div class="control-group">
+      <label class="control-label">顾客姓名</label>
+      <div class="controls">
+        <%= f.text_field :name, :class => 'span2 ' %>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <label class="control-label">总消费金额</label>
+      <div class="controls">
+        <%= f.text_field :total_amount, :class => 'span2 ' %>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <label class="control-label">总订单数</label>
+      <div class="controls">
+        <%= f.text_field :total_orders, :class => 'span2 ' %>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <%= f.submit "提交", :class => "btn btn-success" %>&nbsp;&nbsp;
+      <%= link_to '取消', customers_path, :class => 'btn' %>
+    </div>
+  <% end %>
+</div>

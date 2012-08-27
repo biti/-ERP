@@ -1,0 +1,107 @@
+<%= render 'shared/notice' %>
+<%= render 'nav_orders' %>
+
+<% if @orders.empty? %>
+  没有订单数据
+<% else %>
+
+<%= render 'filters', :option => :simple %>
+<br/>
+
+<div style='background-color:#E5F4F9;padding: 7px 0px 7px 10px;border: 1px solid #FAEFE3;'>
+  <%= link_to '全选', 'javascript:;', :id => 'check-all-yes' %>
+  &nbsp;
+  <%= link_to '全不选', 'javascript:;', :id => 'check-all-no'%>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+  <% if ['waiting_delivery', 'index'].include? action_name %>
+    <%= link_to '批量发货', 'javascript:;', :id => 'shipping-in-volume-button', 
+      :class => 'btn ' %>&nbsp;&nbsp;&nbsp;&nbsp;
+  <% end %>
+  <% if ['waiting_delivery', 'waiting_pay', 'index'].include? action_name %>
+    <%= link_to '批量修改运费', 'javascript:;', :id => 'modify-ship-fee-button', 
+      :class => 'btn ' %>&nbsp;&nbsp;&nbsp;&nbsp;
+  <% end %>
+  <% if ['waiting_delivery', 'index'].include? action_name %>
+    <%= link_to '批量备注', 'javascript:;', :id => 'remark-button', 
+      :class => 'btn ' %>&nbsp;&nbsp;&nbsp;&nbsp;
+  <% end %>      
+</div>
+
+<table class="table" id='orders-table'>
+  <thead>
+    <tr style='background-color:#'>
+      <th width=''></th>
+      <th width='300px'>订单号</th>
+      <th width='100px'>收货人</th>
+      <th width=''>买家</th>
+      <th width=''>下单时间</th>
+      
+      <th width=''>总金额</th>
+      <th width=''>实收款</th>
+      <th>操作</th>
+    </tr>
+  </thead>
+
+  <tbody>
+
+    <% @orders.each do |o| %>
+      <tr style='background-color:#F1F7FB;border: 1px solid #DDD;'>
+        <td>
+          <%= check_box :order, :target_id, 'data-id' => o.id %>
+        </td>
+        <td>
+          <%= o.outer_id %> 
+          &nbsp;&nbsp;
+          <span class="label" style='background-color:<%= PLATFORMS.find{|k, v| v[:id] == o.platform_id}.try(:last).try(:[], :color) %>'>
+            <%= PLATFORMS.find{|k, v| v[:id] == o.platform_id}.try(:last).try(:[], :name) %>
+          </span>
+        </td>
+
+        <td> 
+          <%= link_to 'javascript:;', :class => 'address-button', :rel => 'popover',
+            'data-content' => o.human_address, 'data-original-title' => '物流信息' do %>
+            <%= o.name %> 
+          <% end %>
+        </td>
+        <td> 
+          <a target="_blank" href="http://amos1.taobao.com/msg.ww?v=2&uid=<%=o.buyer_nick%>&s=2">
+            <img border="0" src="http://amos1.taobao.com/online.ww?v=2&uid=<%=o.buyer_nick%>&s=2" alt="给买家留言" />
+          </a>
+          <%= o.buyer_nick %>
+        </td>
+        <td><%= l o.order_time, :format => :simple %></td>
+        <td id='total-fee-<%=o.id%>'><%= o.total_fee %></td>
+        <td id='payment-<%=o.id%>'><strong><%= o.payment %></strong></td>
+        <td><%= raw o.human_status %></td>
+        <td>
+          <%= link_to '详情', 'javascript:;' %>
+        </td>
+      </tr>
+
+      <% o.items.each do |item| %>
+        <tr style='border: 1px solid #DDD;' class='orders-items'>
+          <td></td>
+          <td colspan='4'>
+            <%= link_to "产品：#{item.product_name}相信范德萨袜子", item.try(:product_url) %>
+            &nbsp;
+            <%=item.sku_properties_name%>
+          </td>
+          <td>单价：<%=item.price%></td>
+          <td>数量：<%=item.quantity%></td>
+          <td>
+          </td>
+        </tr>
+      <% end %>
+      
+      <tr height='2' style='padding:0px;margin:0px;height:1px;'><td colspan='8' height='2'></td></tr>
+
+    <% end %>
+    
+  </tbody>
+</table>
+
+<%= will_paginate @orders, :previous_label => '上一页', :next_label => '下一页', 
+  :show_always => true, :class => 'digg_pagination' %>
+  
+<% end %>

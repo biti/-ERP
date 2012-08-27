@@ -1,0 +1,29 @@
+
+<div class='row'>
+  <div class='span2'>
+    <%= render 'sidebar' %>
+  </div>
+  
+  <div class='span10'>
+    <div class="tools" style='margin:10px 0;'>
+      <%= link_to '返回商品管理页', products_path %>
+    </div>
+    
+    <h2>编辑商品</h2>
+    <br/>
+    
+    <% if notice %>
+    <div class="alert alert-success">
+      <a class="close" data-dismiss="alert">×</a>
+      <strong><%= notice %></strong>
+    </div>
+    <% end %>
+    <script>
+      jQuery(function($) {
+        $(".alert").alert()        
+      });
+    </script>
+    
+    <%= render 'form' %>
+  </div>
+</div>

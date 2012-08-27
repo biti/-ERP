@@ -1,0 +1,45 @@
+<br/><br/>
+
+<div id="dan" class="form">
+<%= form_for(@order, 
+  :url => (@order.id.blank? ? orders_path : order_path(@order)), :html => {:class => 'form-horizontal'}) do |f| %>
+
+  <%= hidden_field_tag 'return_url', params[:return_url]%>
+  
+  <% unless f.error_messages.blank? %>
+    <div class="alert alert-error">
+      <%= f.error_messages %>
+    </div>
+  <% end %>
+
+  <div class="control-group">
+    <label class="control-label"></label>
+    <div class="controls">
+      <%= f.file_field :file, :class => 'span2 ' %>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <%= f.submit "提交", :class => "btn btn-primary" %>
+  </div>
+<% end %>
+</div>
+
+
+<script type="text/javascript">
+  $(function(){
+    $.datepicker.setDefaults( $.datepicker.regional[ "zh-CN" ] );
+
+    $('#dan_online_time').datepicker({
+      inline: true
+    });
+    
+    $(".chosen-select").chosen();
+    
+    $( "#dan_partner_name" ).autocomplete({
+  		source: "/companies",
+  		minLength: 3
+  	});
+    
+  });  
+</script>

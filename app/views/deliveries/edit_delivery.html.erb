@@ -1,0 +1,136 @@
+
+<div class='row'>
+  <div class='span2'>
+    <%= render 'orders/sidebar' %>
+  </div>
+  
+  <div class='span10'>
+    <%= render 'shared/notice' %>
+    
+    <% if @orders.empty? %>
+      没有订单数据
+    <% else %>
+    
+    <h3><span style='color:#F60'>第一步</span>&nbsp;&nbsp;确认发货/退货信息</h3>
+    <div style='margin:15px;'>
+      <span id='show-address'>
+        我的发/退货信息：
+        <span>
+          <%= @address.try(:human_address) %>
+        </span>
+        <%= link_to '修改', '#' %>
+      </span>
+
+      <%= form_for :address, :url => '#', :html => {:class => 'form-inline', :id => 'delivery-address-form' } do |f| %>
+        我的发/退货信息：
+  	    <%= f.text_field :name, :class => 'input-small span1', :placeholder => "联系人" %>
+  	    <%= f.text_field :state, :class => 'input-small span1', :placeholder => "省" %>
+  	    <%= f.text_field :city, :class => 'input-small span1', :placeholder => "市" %>
+  	    <%= f.text_field :district, :class => 'input-small span1', :placeholder => "区" %>
+  	    <%= f.text_field :detail, :class => 'input-small span2', :placeholder => "街道" %>
+  	    <%= f.text_field :zip, :class => 'input-small span1', :placeholder => "邮编" %>
+  	    <%= f.text_field :mobile, :class => 'input-small span1', :placeholder => "手机" %>
+  	    <%= f.text_field :phone, :class => 'input-small span1', :placeholder => "电话" %>
+        <%= link_to '保存', '#', :id => 'save-delivery-address-button',:class => 'btn' %>
+  		<% end %>
+    </div>
+    
+    <h3><span style='color:#F60'>第二步</span>&nbsp;&nbsp;选择物流服务</h3>
+    <div style='margin:0px 0 10px 15px;'>
+      <%= form_for :wuliu, :url => '#', 
+        :html => {:class => 'form-inline', :id => 'fuliu-form' } do |f| %>
+        
+        <div class="control-group">
+          <label class="control-label" for="wuliu_company"></label>
+          <div class="controls">
+      	    <%= f.select :company, LOGISTICS_COMPANIES.map{|k, v| [v[:name], k]}, 
+      	      :prompt => '请选择公司', :class => 'input-small' %>
+            <span class="help-inline"></span>
+          </div>
+        </div>
+        
+  		<% end %>
+    </div>
+    
+    <h3><span style='color:#F60'>第三步</span>&nbsp;&nbsp;确认收货信息并填写运单号</h3>
+    <!-- <div style='margin:15px;'>
+      注意：相同地址的订单已经合并
+    </div> -->
+      
+    <%= form_for :order, :url => '', :html => {:id => 'shipping-form'} do |f| %>
+    <table class="table" id='orders-table'>
+      <tr>
+        <th width='180'></th>
+        <th width='100'></th>
+        <th width='100'></th>
+        <th width='100'></th>
+        <th width='100'></th>
+        <th width='50'></th>
+      </tr>
+      
+      <% @orders.each do |o| %>
+        <tr style='background-color:#F1F7FB;border: 1px solid #DDD;'>
+          <td>
+            <span class='display:inline;'>
+              <%= hidden_field_tag 'order[][id]', o.id %>
+              <%= hidden_field_tag 'order[][outer_id]', o.outer_id %>
+              <%= hidden_field_tag 'order[][platform_id]', o.platform_id %>
+              
+              运单号：
+              <%= text_field_tag 'order[][delivery_no]', '', 
+                :id => "delivery-no-#{o.id}", :class=>'span2 delivery-no' %>
+              <span class="help-inline" style='color:#B94A48;'></span>
+            </span>
+          </td>
+          <td colspan='5'>
+            地址：<%= strip_tags o.human_address %>
+          </td>
+        </tr>
+      
+        <!-- <tr style='background-color:#F1F7FB;border: 1px solid #DDD;'>
+          <td colspan='6'>
+            订单号：<%= o.outer_id %>
+          </td>
+        </tr> -->
+
+        <% o.items.in_groups_of(2, nil) do |g| %>
+          <tr style='border: 1px solid #DDD;' class='orders-items'>
+            <% g.each do |item| %>
+              <% if item %>
+              <td colspan='2' style=''>
+                <%= image_tag item.image_url, :size => '40x40' %>
+
+                <%= link_to item.try(:product_name), item.try(:product_url) %>
+                <%=item.try(:sku_properties_name) %>
+
+              </td>
+              <td style='border-right:1px solid #DDD;'>
+                <%=item.try(:price) %> x <%=item.try(:quantity) %></li>
+              </td>
+              <% else %>
+                <td colspan='2'></td><td></td>
+              <% end %>
+            <% end %>
+          </tr>
+        <% end %>
+      <% end %> 
+    </table>
+    <% end %>
+
+    <% end %>
+    
+    <div class="info-area">
+  		<span>填写运单号后确认，交易状态就会变成更改为“卖家已发货，等待买家确认”</span>
+	    <%= link_to ' 批量发货 ', 'javascript:;', :id => 'submit', :class => 'btn btn-success btn-large'%>
+  	</div>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function() {    
+    App.Views.Deliveries.Index.init();
+  });
+  
+</script>
+
+

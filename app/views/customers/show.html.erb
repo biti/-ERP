@@ -1,0 +1,70 @@
+
+<div class='row'>
+  <div class='span2'>
+    <%= render 'sidebar' %>
+  </div>
+  
+  <div class='span10'>
+    <div class="tools" style='margin:10px 0;'>
+      <%= link_to '<-返回客户管理页', customers_path %>&nbsp;&nbsp;
+      <!-- <%= link_to '修改基本信息', edit_customer_path(@customer), :class => "" %> -->
+    </div>
+    
+    <h2>客户信息</h2>
+    <br/>
+    
+    <% if notice %>
+    <div class="alert alert-success">
+      <a class="close" data-dismiss="alert">×</a>
+      <strong><%= notice %></strong>
+    </div>
+    <% end %>
+    
+    <div id="customer" style='margin-left:20px;margin-bottom:20px;'>
+      <p style='font-size:16px;'>
+        <b>客户id：</b>
+        <%= @customer.user_outer_id %>&nbsp;&nbsp;
+        <b>级别：</b>
+        <%= raw @customer.human_level %>
+        <br/><br/>
+        <b>总消费金额：</b>
+        <%= @customer.total_amount %>&nbsp;&nbsp;
+        <b>订单数：</b>
+        <%= @customer.total_orders %>&nbsp;&nbsp;
+      </p>
+    </div>
+    
+    <h3>联系方式</h3>
+    
+    <table class="table table-striped" style='margin-left:20px;'>
+      <thead>
+        <tr>
+          <th width='80'>姓名</th>
+          <th width='120'>电话</th>
+          <th width=''>地址</th>
+          <th width=''></th>
+    
+          <th width=''></th>
+        </tr>
+      </thead>
+
+      <tbody>
+      <% @customer.contacts.each do |item| %>
+      <tr>
+        <td>
+          <%= item.name %> 
+        </td>
+        <td> <%= item.mobile %> , <%= item.phone %> </td>
+        <td> <%= item.state %> <%= item.city %> <%= item.district %> <%= item.address %> , 
+          <%= item.zip %></td>
+        <td></td>
+        
+        <td>
+        </td>
+      </tr>
+      <% end %>
+
+      </tbody>
+    </table>
+  </div>
+</div>

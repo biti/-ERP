@@ -1,0 +1,53 @@
+/*
+ * This is a manifest file that'll automatically include all the stylesheets available in this directory
+ * and any sub-directories. You're free to add application-wide styles to this file and they'll appear at
+ * the top of the compiled file, but it's generally better to create a new file per style scope.
+ *= require bootstrap-responsive.min
+ *= require bootstrap
+ *= require_self
+ *= require_tree .
+*/
+
+.navbar-inner {
+  background-color: #1C86D1;
+}
+
+.nav-list .divider {
+  height: 1px;
+  margin: 8px 1px;
+  overflow: hidden;
+  background-color: #E5E5E5;
+  border-bottom: 1px solid white;
+}
+
+.navbar .nav .active > a, .navbar .nav .active > a:hover {
+  background-color: #0C6FB2;
+}
+
+.footer {
+  margin-top: 25px;
+  padding: 15px 0 26px;
+  border-top: 1px solid #E5E5E5;
+}
+
+#orders-table td {
+  vertical-align: middle;
+}
+
+#orders-table .orders-items td{
+  padding: 3px;
+}
+
+.draggable {
+  cursor: move;
+  z-index: 3;
+  position: relative;
+
+  width: 180px;
+  font-size: 0.77em;
+  /*  color: #618d5e;*/
+  margin: 5px 10px 10px 10px;
+  padding: 8px;
+  background-color: #FEF5E6;
+  border: 1px solid #FF8C3F;
+}

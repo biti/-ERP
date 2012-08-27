@@ -1,0 +1,62 @@
+<h2 style='margin:5px 0 5px 0;color:#999;'>
+  跟进
+</h2>
+
+<%= return_suppliers_url %>
+<br/><br/>
+
+<div id="supplier" class="form">
+  <%= form_for(@supplier, :url => save_follow_supplier_path(@supplier), :html => {:class => 'form-horizontal'}) do |f| %>
+
+    <%= hidden_field_tag 'return_url', params[:return_url]%>
+
+    <% unless f.error_messages.blank? %>
+      <div class="alert alert-error">
+        <%= f.error_messages %>
+      </div>
+    <% end %>
+
+    <div class="inputs">
+
+      <div class="control-group">
+        <label class="control-label">品牌名称</label>
+        <div class="controls">
+          <%= f.text_field :brand, :class => 'span2', :readonly => 'true' %>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label class="control-label">公司名称</label> 
+        <div class="controls">
+          <%= f.text_field :company, :class => 'span3', :readonly => 'true' %>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label class="control-label">网址/网店地址</label> 
+        <div class="controls">
+          <%= f.text_field :eshop, :class => 'span3', :readonly => 'true' %>
+        </div>
+      </div>
+      <hr/>
+      
+      <div class="control-group">
+        <label class="control-label">修改跟进状态</label> 
+        <div class="controls">
+          <%= f.select :status, Supplier::STATUS.invert.to_a, {}, :class => 'span2' %>
+        </div>
+      </div>
+        
+      <div class="control-group">
+        <label class="control-label">备注</label> 
+        <div class="controls">
+          <%= f.text_area :remark, :size => '2x8', :class => 'span4' %>
+        </div>
+      </div>  
+    </div>
+    
+    <div class="form-actions">
+      <%= f.submit "提交", :class => "btn btn-primary" %>
+    </div>
+  <% end %>
+</div>

@@ -1,0 +1,89 @@
+<% if notice %>
+<div class='alert'>
+  <%= notice %>  <button class="close" data-dismiss="alert">×</button>
+</div>
+<% end %>
+
+<div class="row" style='margin-top: 10px; margin-bottom:6px;'>
+
+  <div class="span8">
+
+    <input class="span3" id="q-input" size="16" type="text" placeholder="输入编码或名称，回车"/>
+    <span style='padding-top:'>&nbsp;&nbsp;&nbsp;&nbsp;
+  </div>
+</div>
+
+<div id="products">
+
+  <div style='background-color:#E5F4F9;padding: 7px 0px 7px 10px;border: 1px solid #FAEFE3;'>
+    <%= link_to '全选', 'javascript:;', :id => 'check-all-yes' %>
+    &nbsp;
+    <%= link_to '全不选', 'javascript:;', :id => 'check-all-no'%>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+    <% if action_name == 'index' %>
+      <%= link_to '手动下架', 'javascript:;', :id => 'delisting-button', 
+        :class => 'btn ' %>&nbsp;&nbsp;
+    <% end %>
+    
+    <% if action_name == 'instock' %>
+      <%= link_to '手动上架', 'javascript:;', :id => 'listing-button', 
+        :class => 'btn ' %>&nbsp;&nbsp;
+    <% end %>
+  </div>
+
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th width='50'></th>
+        <th width='230'>编码</th>
+        <th width=''>产品名称</th>
+        <th width='50'>价格</th>
+        <th width='50'>总销量</th>
+        <th width='50'>总库存</th>
+        <th width='55'> </th>
+      </tr>
+    </thead>
+
+    <tbody>
+    <% @products.each do |item| %>
+    <!-- <tr style='background-color:#F1F7FB;border: 1px solid #DDD;'> -->
+    <tr>
+      <td colspan='2'>
+        <input type='checkbox' data-id='<%=item.id%>'/>&nbsp;&nbsp;
+        <%= raw human_platform(item.platform_id) %>&nbsp;
+        <%= item.outer_id %>
+      </td>
+      <td><strong><%= item.name %></strong></td>
+      <td><%= item.price %></td>
+      <td><%= item.num_sell %></td>
+      <td><%= item.num %></td>
+      <td>
+        <%= link_to '调整库存', edit_inventory_product_path(item.id) + '?return_url=' + products_path %>
+      </td>
+    </tr>
+    
+      <% unless item.skus.blank? %>
+      <!-- <tr style='border: 1px solid #DDD;' class='orders-items'> -->
+      <tr>
+        <td><%= image_tag item.image_url, :size => '50x50' %></td>
+        <td colspan='5'>
+          <!-- <span style='float:left;margin:2px 5px'>详细库存：</span> -->
+          <% item.skus.each do |sku| %>
+            <%= raw sku_tag(sku, @shortage_skus)%>
+          <% end %>
+        </td>
+        <td>            
+        </td>
+      </tr>
+      <% end %>
+    
+    <% end %>
+
+    </tbody>
+  </table>
+</div>
+
+<%= will_paginate @products, :previous_label => '上一页', :next_label => '下一页', :class => 'digg_pagination' %>
+  

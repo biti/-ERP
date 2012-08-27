@@ -1,0 +1,53 @@
+<link href='/stylesheets/pagination.css' rel='stylesheet' type='text/css'>
+
+<h2 style='margin:5px 0 5px 0;color:#999;'>
+  全部用户
+</h2>
+
+<% if @current_user.role_id.to_i == User::ROLES[:admin] %>
+<div class='nav'>
+  <a class='btn btn-small' href="<%= new_user_path %>" class="">新建用户</a>&nbsp;&nbsp
+</div>
+<% end %>
+
+<div id="dans">
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th width='100px'> 用户名 </th>
+      <th width='100px'> 真实姓名 </th>
+      <th width=''>权限</th>
+      <th></th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <% @users.each do |u| %>
+    <tr>
+    
+      <td> <%= u.username %> </td>
+      <td> <%= u.realname %> </td>
+      <td> <%= u.render_permissions %> </td>
+
+      <td>
+        <% if @current_user.role_id.to_i == User::ROLES[:admin] %>
+          <div class='' style='display: inline;'>
+            <%= link_to '详情', user_path(u) %>
+            <%= link_to '修改', edit_user_path(u) %>
+            <% link_to '删除', user_path(u), :method=>:delete, :style => 'color:#999;', :confirm => '确定删除吗?' %>
+          </div>
+        <% end %>
+      </td>
+    </tr>
+    <% end %>
+
+    </tbody>
+  </table>
+
+</div>
+
+<br/>
+
+<%= will_paginate @users, :previous_label => '上一页', :next_label => '下一页', :show_always => true, :class => 'digg_pagination' %>
+
+

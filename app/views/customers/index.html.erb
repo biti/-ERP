@@ -1,0 +1,71 @@
+
+<div class='row'>
+  <div class='span2'>
+    <%= render 'sidebar' %>
+  </div>  
+  
+  <div class='span10'>
+
+    <div class="tools" style='margin:10px 0;'>
+      <h3>各平台用户数</h3>
+      淘宝客户：
+      <strong><%= @taobao_customers %></strong>&nbsp;&nbsp;
+      拍拍客户：
+      <strong><%= @paipai_customers %></strong>&nbsp;&nbsp;
+      京东客户：
+      <strong><%= @jingdong_customers %></strong>&nbsp;&nbsp;
+        <br/><br/>
+      
+      <h3>各级别用户数</h3>
+      <% @customer_levels.each do |l| %>
+        <%= l.name %>：
+        <strong><%= @level_nums[l.level]%></strong>&nbsp;&nbsp;
+      <% end %>
+    </div>
+
+    <div id="products">
+  
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th width=''>客户id</th>
+          <th width=''>客户级别</th>
+          <th width=''>总消费金额</th>
+          <th width=''>总订单数</th>
+          
+          <th width=''></th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <% @customers.each do |item| %>
+        <tr>
+          <td>
+            <%= raw human_platform(item.platform_id) %>&nbsp;
+            <%= link_to customer_path(item.id) do %>
+              <%= item.user_outer_id %> 
+            <% end %>
+          </td>
+          <td> <%= raw item.human_level %> </td>
+          <td> <%= item.total_amount %> </td>
+          <td> <%= item.total_orders %> </td>
+          
+          <td>
+            <!-- <div style='display: inline;'>
+              <%= link_to '详情', customer_path(item.id) %>
+              <%= link_to '修改', edit_customer_path(item.id) %>
+                &nbsp;&nbsp;
+              <%= link_to '删除', customer_path(item.id), :method => :delete, :style => 'color:#999;', :confirm => '确定删除吗?' %>
+            </div> -->
+          </td>
+        </tr>
+        <% end %>
+
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+</div>
+
+

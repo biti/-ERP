@@ -1,0 +1,151 @@
+
+<div class='row'>
+  <div class='span2'>
+    <%= render 'orders/sidebar' %>
+  </div>
+  
+  <div class='span10'>
+    <%= render 'shared/notice' %>
+    <%= render 'nav_orders' %>
+    
+    <% if @orders.empty? %>
+      没有订单数据
+    <% else %>
+    
+    <%= render 'orders/filters', :option => :simple %>
+    <br/>
+    
+    <div style='background-color:#E5F4F9;padding: 7px 0px 7px 10px;border: 1px solid #FAEFE3;'>
+      <%= link_to '全选', 'javascript:;', :id => 'check-all-yes' %>
+      &nbsp;
+      <%= link_to '全不选', 'javascript:;', :id => 'check-all-no'%>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    
+      <% if ['waiting_delivery', 'index'].include? action_name %>
+        <%= link_to '批量发货', 'javascript:;', :id => 'shipping-in-volume-button', 
+          :class => 'btn ' %>&nbsp;&nbsp;&nbsp;&nbsp;
+      <% end %>
+      <% if ['waiting_delivery', 'waiting_pay', 'index'].include? action_name %>
+        <%= link_to '批量打印发货单', 'javascript:;', :id => 'print-goods-in-volume-button', 
+          :class => 'btn ' %>&nbsp;&nbsp;&nbsp;&nbsp;
+      <% end %>
+      <% if ['waiting_delivery', 'index'].include? action_name %>
+        <%= link_to '批量打印运单', '#batch-print-express', :id => 'print-expresses-in-volume-button', 
+          :class => 'btn ', 'data-toggle' => 'modal' %>&nbsp;&nbsp;&nbsp;&nbsp;
+      <% end %>      
+    </div>
+    
+    <table class="table" id='orders-table'>
+      <thead>
+        <tr style='background-color:#'>
+          <th width='20'></th>
+          <th width='240'>订单号</th>
+          <th width=''>地址</th>
+          <th width='140'>下单时间</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <% @orders.each do |o| %>
+          <tr style='background-color:#F1F7FB;border: 1px solid #DDD;'>
+            <td>
+              <%= check_box :order, :target_id, 'data-id' => o.id %>
+            </td>
+            <td>
+              <%= o.outer_id %> 
+              &nbsp;&nbsp;
+              <span class="label" style='background-color:<%= PLATFORMS.find{|k, v| v[:id] == o.platform_id}.try(:last).try(:[], :color) %>'>
+                <%= PLATFORMS.find{|k, v| v[:id] == o.platform_id}.try(:last).try(:[], :name) %>
+              </span>
+            </td>
+            <td> 
+              <%= strip_tags o.human_address %>
+            </td>
+            <td><%= l o.order_time %></td>
+          </tr>
+
+          <% o.items.each do |item| %>
+            <tr style='border: 1px solid #DDD;' class='orders-items'>
+              <td colspan='4'>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <%= image_tag item.image_url, :size => '40x40' %>
+                <%= link_to item.product_name, item.try(:product_url) %>
+                <%=item.sku_properties_name%>
+                
+                <strong> <%=item.price%>x <%=item.quantity%></strong>
+              </td>
+            </tr>
+          <% end %>
+          
+          <tr height='2' style='padding:0px;margin:0px;height:1px;'><td colspan='8' height='2'></td></tr>
+  
+        <% end %>
+        
+      </tbody>
+    </table>
+
+    <%= will_paginate @orders, :previous_label => '上一页', :next_label => '下一页', 
+      :show_always => true, :class => 'digg_pagination' %>
+      
+    <% end %>
+  </div>
+</div>
+
+<div class="modal hide" id="batch-print-express">
+  <%= render 'batch_print_express_modal', :default_template => @default_template %>
+</div>
+
+<script>
+  jQuery(function($) {
+    
+    var checkboxs = $('#orders-table tr td input[type="checkbox"]');
+    var printForm = $('#print-modal-form');
+    var shippingInVolumeButton = $('#shipping-in-volume-button');
+    var printFormSubmit = $('#print-form-submit');
+    var printGoodsButton = $('#print-goods-in-volume-button');
+    
+    $('#check-all-yes').click(function() {
+      checkboxs.attr('checked', true);
+    });
+    $('#check-all-no').click(function() {
+      checkboxs.attr('checked', false);
+    });
+
+    var getCheckedIds = function() {
+      var ids = [];
+      $('input:checked').each(function() {
+        ids.push( $(this).attr('data-id') );
+      });
+      return ids;
+    }
+    
+    shippingInVolumeButton.click(function() {
+      var ids = getCheckedIds();
+
+      if(ids.length == 0) {
+        return false;
+      }
+      
+      window.location = '/deliveries/edit_delivery?ids=' + ids.join(',');
+    });
+
+    // 批量打印出货单
+    printGoodsButton.click(function() {
+      var ids = getCheckedIds();
+
+      if(ids.length == 0) {
+        return false;
+      }
+      
+      window.open('/deliveries/print_goods?ids=' + ids.join(','), "");
+    });
+    
+    printFormSubmit.click(function() {
+      var ids = getCheckedIds().join(',');
+      var idsInput = $('<input type="hidden" name="ids"/>').val(ids);
+
+      printForm.append(idsInput);
+      printForm.submit();
+    });
+  });
+</script>

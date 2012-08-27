@@ -1,0 +1,61 @@
+<div class='row'>
+  <div class='span2'>
+    <%= render 'sidebar' %>
+  </div>  
+  
+  <div class='span10'>
+
+    <div class="tools" style='margin:10px 0;'>
+      <%= link_to '返回商品管理页面', products_path, :class => "" %>&nbsp;&nbsp;
+    </div>
+    <h2>调整库存 <small> <%= @product.name %>  (总库存：<%= @product.total %>)</small></h2><br/>
+    
+    <% if notice %>
+    <div class="alert alert-success">
+      <a class="close" data-dismiss="alert">×</a>
+      <strong><%= notice %></strong>
+    </div>
+    <% end %>
+    <script>
+      jQuery(function($) {
+        $(".alert").alert()        
+      });
+    </script>
+
+    
+    <%= form_for @product, :url => update_inventory_product_path(@product),:html=>{:class => "form-inline"} do |f| %>
+    
+      <%= f.error_messages %>
+      
+      <table class="table table-condensed">
+        <thead>
+          <tr>
+            <th width='8%'>sku编码</th>
+            <th width='20%'>规格</th>
+            <th width='10%'>单价</th>
+            <th width='10%'>库存</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <%= f.fields_for :skus do |builder| %>
+          <tr>
+            <td><%= builder.object.outer_id %></td>
+            <td><%= builder.object.properties %></td>
+            <td><strong><%= builder.object.price %></strong></td>
+            <td>
+              <%= builder.text_field :quantity, :class => 'span1' %>
+              
+              <%= builder.hidden_field :outer_id %>
+            </td>
+          </tr>
+          <% end %>
+        </tbody>
+      </table>
+
+      <p><%= f.submit " 确定 ", :class => 'btn btn-success' %></p>
+    <% end %>
+    
+  </div>
+</div>
+

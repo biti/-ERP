@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/Fixtures.html
+
+one:
+  company: MyString
+  brand: MyString
+  eshop: MyString
+  status: 1
+  remark: MyText
+
+two:
+  company: MyString
+  brand: MyString
+  eshop: MyString
+  status: 1
+  remark: MyText

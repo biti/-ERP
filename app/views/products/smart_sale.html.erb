@@ -1,0 +1,122 @@
+
+<div class='row'>
+  <div class='span2'>
+    <%= render 'sidebar' %>
+  </div>  
+  
+  <div class='span10'>
+    <div style='margin:15px 0;'>
+      <h1>
+        <span id='step1'>1. 选择商品</span>
+          ->
+        <span id='step1'>2. 设置上下架计划</span>
+      </h1>
+    </div>
+
+    <% if notice %>
+    <div class='alert'>
+      <%= notice %>  <button class="close" data-dismiss="alert">×</button>
+    </div>
+    <% end %>
+
+    <div class="row" style='margin-top: 10px; margin-bottom:6px;'>
+      <div class="span8">
+
+        <input class="span3" id="q-input" size="16" type="text" placeholder="输入编码或名称，回车"/>
+      </div>          
+    </div>
+    
+    <div id="products">
+
+      <div style='background-color:#E5F4F9;padding: 7px 0px 7px 10px;border: 1px solid #FAEFE3;'>
+        <%= link_to '全选', 'javascript:;', :id => 'check-all-yes' %>
+        &nbsp;
+        <%= link_to '全不选', 'javascript:;', :id => 'check-all-no'%>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        <%= link_to '设置上架计划', 'javascript:;', :id => 'smart-sale-button', 
+          :class => 'btn ' %>
+      </div>
+
+  
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th width='50'></th>
+            <th width='300'>编码</th>
+            <th width=''>产品名称</th>
+            <th width='50'>价格</th>
+            <th width='50'>总销量</th>
+            <th width='50'>总库存</th>
+            <th width='55'>上架计划</th>
+          </tr>
+        </thead>
+
+        <tbody>
+        <% @products.each do |item| %>
+        <!-- <tr style='background-color:#F1F7FB;border: 1px solid #DDD;'> -->
+        <tr>
+          <td colspan='2'>
+            <input type='checkbox' data-id='<%=item.id%>'/>&nbsp;&nbsp;
+            <%= raw human_platform(item.platform_id) %>&nbsp;
+            <%= item.outer_id %>
+          </td>
+          <td><%= image_tag item.image_url, :size => '30x30' %>
+            <strong><%= item.name %></strong></td>
+          <td><%= item.price %></td>
+          <td><%= item.num_sell %></td>
+          <td><%= item.num %></td>
+          <td>
+            <%= link_to '查看', 'javascript:;' %>
+          </td>
+        </tr>
+        <% end %>
+
+        </tbody>
+      </table>
+    </div>
+    
+    <%= will_paginate @products, :previous_label => '上一页', :next_label => '下一页', :class => 'digg_pagination' %>
+    
+  </div>
+</div>
+
+<script>
+  jQuery(function($) {
+    
+    var smartSaleButton = $('#smart-sale-button');
+    
+    $('#q-input').change(function() {
+      window.location = '/products/smart_sale?q=' + $(this).val();
+    });
+    
+    $('#min-input').change(function() {
+      window.location = '/products?min=' + $(this).val();
+    });
+        
+    var checkboxs = $('table tbody tr td input[type="checkbox"]');
+    $('#check-all-yes').click(function() {
+      checkboxs.attr('checked', true);
+    });
+    $('#check-all-no').click(function() {
+      checkboxs.attr('checked', false);
+    });
+    
+    var getCheckedIds = function() {
+      var ids = [];
+      $('input:checked').each(function() {
+        ids.push( $(this).attr('data-id') );
+      });
+      return ids;
+    }
+    
+    smartSaleButton.click(function() {
+      var ids = getCheckedIds();
+      if(ids.length == 0) {
+        return false;
+      }
+      
+      window.location = '/products/edit_sale?ids=' + ids.join(',');
+    });
+  });
+</script>

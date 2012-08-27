@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/Fixtures.html
+
+one:
+  platform_id: 1
+  num: 1
+  min: 1
+
+two:
+  platform_id: 1
+  num: 1
+  min: 1

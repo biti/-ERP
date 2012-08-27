@@ -1,0 +1,29 @@
+
+<div id="product-form" class="form">
+  <%= form_for(@shop, 
+    :url => (@shop.id.blank? ? shops_path : shop_path(@shop)), :html => {:class => 'form-horizontal'}) do |f| %>
+  
+    <% unless f.error_messages.blank? %>
+      <div class="alert alert-error">
+        <%= f.error_messages %>
+      </div>
+    <% end %>
+        
+    <div class="control-group"><label class="control-label">店铺</label>
+      <div class="controls">
+        <%= f.text_field :shop_name, :class => 'span2' %>
+      </div>
+    </div>
+
+    <div class="control-group"><label class="control-label">平台</label>
+      <div class="controls">
+        <%= f.select :platform_id, PLATFORMS.map{ |k, v| [v[:name], v[:id]] }, :class => 'span1' %>
+      </div>
+    </div>
+    
+    <div class="form-actions">
+      <%= f.submit "保存", :class => "btn btn-success" %>&nbsp;&nbsp;
+      <%= link_to '取消', shops_path, :class => 'btn' %>
+    </div>
+  <% end %>
+</div>

@@ -1,0 +1,68 @@
+
+<div id="supplier" class="form">
+  <%= form_for(@supplier, 
+    :url => (@supplier.id.blank? ? suppliers_path : supplier_path(@supplier)), :html => {:class => 'form-horizontal'}) do |f| %>
+
+    <%= hidden_field_tag 'return_url', params[:return_url]%>
+
+    <% unless f.error_messages.blank? %>
+      <div class="alert alert-error">
+        <%= f.error_messages %>
+      </div>
+    <% end %>
+
+    <div class="inputs">
+      
+      <div class="control-group">
+        <label class="control-label">指派采购(必填)</label> 
+        <div class="controls">
+          <%= f.select :buyer_id, @users.map {|u| [ u.realname, u.id ] }, { :include_blank => true }, :class => 'span2 chosen-select', 'data-placeholder' => "请选择..." %>
+        </div>
+      </div>
+      
+      <div class="control-group">
+        <label class="control-label">品牌名称(必填)</label>
+        <div class="controls">
+          <%= f.text_field :brand, :class => 'span2' %>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label class="control-label">公司名称(必填)</label> 
+        <div class="controls">
+          <%= f.text_field :company, :class => 'span3' %>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label class="control-label">网址/网店地址(必填)</label> 
+        <div class="controls">
+          <%= f.text_field :eshop, :class => 'span3' %>
+        </div>
+      </div>
+
+
+      <div class="control-group">
+        <label class="control-label">备注</label> 
+        <div class="controls">
+          <%= f.text_area :remark, :size => '2x8', :class => 'span4' %>
+        </div>
+      </div>  
+    </div>
+    
+    <div class="form-actions">
+      <%= f.submit "提交", :class => "btn btn-primary" %>
+    </div>
+  <% end %>
+</div>
+
+<script type="text/javascript">
+  $(function(){
+    $(".chosen-select").chosen();
+
+    $( "#supplier_company" ).autocomplete({
+  		source: "/companies",
+  		minLength: 3
+  	});
+  });
+</script>

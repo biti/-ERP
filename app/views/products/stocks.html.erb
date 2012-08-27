@@ -1,0 +1,57 @@
+
+<div class='row'>
+  <div class='span2'>
+    <%= render 'sidebar' %>
+  </div>  
+  
+  <div class='span10'>
+
+    <div class="tools" style='margin:10px 0;'>
+      <a href="<%= new_product_path %>" class="btn btn-info">手动同步</a>
+    </div>
+
+    <div id="products">
+  
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th width='15%'>产品</th>
+          <th width=''>库存</th>
+
+          <th width='10%'> </th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <% @products.each do |item| %>
+        <tr>
+          <td> 
+            产品编码：<%= item.no %><br/>
+            <strong><%= item.name %></strong><br/>
+            <%= image_tag item.image_url %>
+          </td>
+          <td> 
+            <strong>总库存：</strong><%= item.total %> <br/>
+            <strong>详细库存：</strong><br/>
+            <% item.skus.each do |sku| %>
+              <%= sku.inspect %>
+            <% end %>
+          </td>
+      
+          <td>
+            <div style='display: inline;'>
+              <br/>
+              <%= link_to '详情', product_path(item.id) %>
+            </div>
+          </td>
+        </tr>
+        <% end %>
+
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+</div>
+
+

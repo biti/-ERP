@@ -1,0 +1,66 @@
+<style>
+  .operations a,span{
+    float:left;
+  }
+  form {
+    margin:0px;padding:0px;
+    float:left;
+  }
+  form input {
+    margin:0px;padding:0px;
+  }
+</style>
+
+<div class='row'>
+  <div class='span2'>
+    <%= render 'shared/settings_sidebar' %>
+  </div>  
+  
+  <div class='span10'>
+    <p></p>
+
+    <% if notice %>
+    <div class='alert'>
+      <%= notice %>
+    </div>
+    <% end %>
+
+    <% if @templates.empty? %>
+      您还没有创建自己的运单打印模板，马上 
+    <% end %>
+    <%= link_to '创建模板', new_delivery_template_path %><br/>
+    
+    <% unless @templates.empty? %>
+    <table class="table table-striped" style='width:500px;'>
+      <thead>
+        <tr>
+          <th width=''>运单模板名称</th>
+          <th width=''>物流公司</th>
+          <th width=''>是否默认</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @templates.each do |item| %>
+        <tr>
+
+          <td> <%= item.name %> </td>
+          <td> <%= item.company %> </td>
+          <td> <%= item.human_default %> </td>
+          <td class='operations'>
+            <%= link_to '编辑', edit_delivery_template_path(item) %>
+            <span>&nbsp;&nbsp;&nbsp;</span>
+            
+            <%= button_to('删除', delivery_template_path(item), :confirm => '确定删除吗？',
+                    :method => "delete", :remote => true, :disable_with => '处理中...') %>
+          </td>
+        </tr>
+        <% end %>
+        
+      </tbody>
+    </table>
+    <% end %>
+    
+  </div>
+</div>

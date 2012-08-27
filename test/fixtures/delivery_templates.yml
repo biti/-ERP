@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/Fixtures.html
+
+one:
+  name: MyString
+  company: MyString
+  image_url: MyString
+  width: 1
+  height: 1
+  options: MyString
+
+two:
+  name: MyString
+  company: MyString
+  image_url: MyString
+  width: 1
+  height: 1
+  options: MyString

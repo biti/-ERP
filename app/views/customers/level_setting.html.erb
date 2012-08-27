@@ -1,0 +1,43 @@
+
+<div class='row'>
+  <div class='span2'>
+    <%= render 'sidebar' %>
+  </div>  
+  
+  <div class='span10'>
+
+    <div class="tools" style='margin:10px 0;'>
+    </div>
+
+    <div id="products" style='width:60%;'>
+      
+      <%= form_for :setting, :url => save_level_setting_customers_path do |f|%>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th></th>
+              <th>总消费金额要达到多少元</th>
+              <th>或总订单数要达到多少笔</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <% @levels.each do |level| %>
+            <tr>
+              <td><strong><%= level.name %></strong></td>
+              <td><input type='text' name="level[<%=level.id%>][total_amount]" class='span1' value='<%=level.total_amount%>'/> 元</td>
+              <td><input type='text' name="level[<%=level.id%>][total_orders]" class='span1' value='<%=level.total_orders%>'/> 笔</td>
+            </tr>
+            <% end %>
+           
+          </tbody>
+        </table>
+        
+        <input type='submit' value='  保存  ' class='btn btn-success'/>
+      <% end %>
+
+    </div>
+  </div>
+</div>
+
+

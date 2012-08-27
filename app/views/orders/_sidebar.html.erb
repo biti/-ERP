@@ -1,0 +1,39 @@
+
+<div class="well" style="padding: 12px 0;">
+  <ul class="nav nav-list">
+
+    <li class="<%= controller_name == 'orders' ? 'active' : '' %>">
+      <a href="/orders"><i class="icon-white "></i> 订单处理 </a>
+    </li>
+
+    <li class='<%= controller_name == 'deliveries' ? 'active' : '' %>'>
+      <a href="/deliveries"><i class="icon-white "></i> 发货 </a>
+    </li>
+
+    <li class='<%= action_name == 'xxx' ? 'active' : '' %>'>
+      <a href="#"><i class="icon-white "></i> 退换货 </a>
+    </li>
+    
+    <li class="divider"></li>
+
+    <li>
+      <%= link_to sync_orders_path do %>
+        <i class="icon-refresh"></i>手动同步订单
+      <% end %>
+    </li>
+    
+    <li class='<%= action_name == 'import_index' ? 'active' : '' %>'>
+      <a href="/orders/import_index"><i class="icon-white "></i> 手动导入订单 </a>
+    </li>
+
+  </ul>
+</div>
+
+<%= render 'shared/bulletin_board' %>
+<%= render 'shared/fast_tools' %>
+
+<script>
+  jQuery(function($) {
+    $('#sync-orders-button').show();
+  });
+</script>

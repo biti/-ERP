@@ -1,0 +1,12 @@
+<h2 style='margin:5px 0 5px 0;color:#999;'>
+  <%= params[:date]%> 修改单子
+</h2>
+
+<%= return_url %>
+
+<%= content_for :sitemap do %>
+<span class="current">修改</span>
+<% end %>
+<%= render 'base' %>
+<%= render 'form' %>
+

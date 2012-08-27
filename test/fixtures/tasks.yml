@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/Fixtures.html
+
+one:
+  delivery_time: 2012-05-30 19:31:11
+  order_num: 1
+  product_total: 1
+
+two:
+  delivery_time: 2012-05-30 19:31:11
+  order_num: 1
+  product_total: 1

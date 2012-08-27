@@ -1,0 +1,67 @@
+<style>
+  .data-td {color:#DD4B39}
+</style>
+<div class='row'>
+  <div class='span2'>
+    <%= render 'sidebar' %>
+  </div>  
+  
+  <div class='span10'>
+    <br/>
+    <%= form_for :filter, :url => charts_path, :method => 'GET', :class => 'form-inline' do |f| %>
+      选择您需要查看的报表类型：
+      <%= f.select :type, [['按月', 'month']], {}, :class => 'span1' %>
+      <%= f.date_select('date', {:start_year => 1.years.ago.year, :end_year => Time.now.year,
+        :use_month_names => ['01','02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'],
+        :discard_day => true}, 
+        :class => 'span1') %>
+      
+    <% end %>
+    
+    <h3><span class='show-current-month'></span> 关键数据：</h3><br/>
+    
+    <table class='table table-bordered' style='width:500px;'>
+      <tbody>
+        <tr>
+          <tr>
+            <td><strong>销售额</strong></td>
+            <td class='data-td' id='total-sales-td' colspan='3'></td>
+          </tr>
+          <tr>
+            <td><strong>卖出商品数</strong></td>
+            <td class='data-td' id='total-products-td'></td>
+            <td><strong>成交订单数</strong></td>
+            <td class='data-td' id='total-orders-td'></td>
+          </tr>
+          <tr>
+            <td><strong>用户数量</strong></td>
+            <td class='data-td' id='total-customers-td'></td>
+            <td><strong>新用户数量</strong></td>
+            <td class='data-td' id='total-new-customers-td'></td>
+          </tr>
+
+        </tr>
+      </tbody>
+    </table>
+    
+    <h3><span class='show-current-month'> 销售趋势：</h3><br/>
+    <div id='chart1'></div><br/>
+    <div id='chart2'></div>
+    
+    <h3><span class='show-current-month'> 用户分析：</h3><br/>
+    <div id='chart3'></div>
+  </div>
+</div>
+  
+<div class='row' style='margin-top:20px;'>
+
+</div>
+
+<script>
+
+  $(document).ready(function() {    
+    App.Views.Charts.Index.init();
+  });
+
+</script>
+

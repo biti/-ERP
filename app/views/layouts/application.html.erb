@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>快品汇商家管理后台</title>  
+  <%= stylesheet_link_tag "application" %>
+  <%= javascript_include_tag 'application' %>
+    
+  <%= csrf_meta_tags %>
+</head>
+
+<body>  
+  <!--[if lte IE 6]>
+  <div id="ie6-warning" style="color:red;font-size:18px">你正在使用的浏览器版本太低，将不能正常浏览本站。请 <a href="http://windows.microsoft.com/zh-CN/internet-explorer/downloads/ie">升级IE浏览器</a> 或使用 <a href="http://www.google.com/chrome/">Google Chrome</a> 浏览器。</div>
+  <![endif]-->
+    
+  <!-- Navbar ===================== -->
+  <div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container">
+
+        <a class="brand" href="/">快品汇商家管理后台</a>
+        <div class="nav-collapse collapse">
+          <ul class="nav" id='navbar'>
+          
+          </ul>
+          
+          <ul class="nav pull-right" id="user-bar">
+            <li class="<%= request.fullpath.include?('/docs') ? 'active' : '' %>">
+              <a href="/docs"><i class='icon-white icon-question-sign'></i>帮助</a>
+            </li>
+            <% if @current_user %>
+            <li class=""><a href="javascript:;">欢迎，<%=@current_user.username%></a></li>
+            <li class=""><a href="/logout">注销</a></li></ul>              
+            <% end %>
+          </ul>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Navbar end ===================== -->
+  
+  <div class='row'>
+    <ul class="breadcrumb">
+      <li class="first"><a href="/">首页</a><span class="divider">/</span></li>
+    </ul>
+  </div>
+  
+  <div class="container">
+    
+    <div class='row'>
+      <div class='span2'>
+        <%= render 'layouts/sidebar' %>
+      </div>  
+
+      <div class='span10'>
+        <%= yield %>
+      </div>
+    </div>
+    
+    <footer class="footer">
+      <p class="pull-right"><a href="#">回到顶部</a></p>
+      <p>by <a href="#" target="_blank">快品汇</a></p>
+    </footer>
+  </div>
+    
+  <script type="text/javascript"> $(function(){if($.browser.msie&&parseInt($.browser.version,10)===6){$('.row div[class^="span"]:last-child').addClass("last-child");$('[class="span"]').addClass("margin-left-20");$(':button[class="btn"], :reset[class="btn"], :submit[class="btn"], input[type="button"]').addClass("button-reset");$(":checkbox").addClass("input-checkbox");$('[class^="icon-"], [class=" icon-"]').addClass("icon-sprite");$(".pagination li:first-child a").addClass("pagination-first-child")}}) </script>
+  
+</body>
+</html>

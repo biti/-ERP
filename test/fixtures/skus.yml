@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/Fixtures.html
+
+one:
+  sku_id: 1
+  outer_id: MyString
+  price: 9.99
+  properties: MyString
+  quantity: 1
+
+two:
+  sku_id: 1
+  outer_id: MyString
+  price: 9.99
+  properties: MyString
+  quantity: 1

@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  <head>
+    <link href="/stylesheets/print-preview.css" type="text/css" rel="stylesheet" media="screen" />
+    <link href="/stylesheets/print.css" type="text/css" rel="stylesheet" media="print" />
+    
+    <style type="text/css" media="screen">
+      .express{ overflow:hidden; position:relative; width:700px; height:389px;}
+      .express img{ 
+        overflow:hidden; 
+        position:relative; 
+        width:700px; 
+        height:389px;
+        opacity:0.3;
+        filter:alpha(opacity=20);
+      }
+      .express .field{
+        position:absolute;
+        word-wrap:break-word;
+        font-size:14px;
+        color:#00f;
+      }
+      
+      <%= fields_css @template.options %>
+      
+    </style>
+    
+    <style type="text/css" media="print">
+      .pageNext{page-break-after: always;} 
+      .express{ overflow:hidden; position:relative;width:229mm; height:127mm;} 
+      .express img{display:none;} 
+      .express .field{
+        position:absolute;
+        word-wrap:break-word;
+        font-size:20px;
+        color:#0000ff;
+        font-family:"宋体"
+      }
+      
+      <%= print_fields_css @template.options %>
+    </style>
+  </head>
+  
+  <body>
+    <div id="main">
+      <% @orders.each do |o| %>
+        <div class="express">
+          <%= image_tag @template.image_url %>
+        
+          <% @template_fields.each do |field_name| %>
+            <div class="<%=field_name%> field" style="padding:0;margin-left:0px;margin-top:0px;">
+              <%= %>
+              <%= show_field(o, field_name) %>
+            </div>
+          <% end %>
+        </div>
+        <div class="pageNext"></div>
+      <% end %>
+      
+      <form action="#" name="printForm" method="post">
+        <input type="hidden" name="order_ids" value="10179119940,10182031710" />
+        <input type="hidden" name="template_id" value="" />
+      </form>
+
+      <div class="buttons">
+        <a type='button' id="printBtn" style='width:100px;height:30px;'>确认打印</a>
+        <p><br/>真实打印不会显示快递单底色</p>
+        <p><br/>效果欠佳？花三分钟 <%= link_to '定制模板', delivery_templates_path %></p>
+      </div>
+      
+    </div>
+    
+    <script type="text/javascript">
+      document.getElementById("printBtn").onclick = function() {
+        window.print();
+        // document.printForm.submit();
+      }
+    </script>
+  </body>
+</html>

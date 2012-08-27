@@ -1,0 +1,81 @@
+<head>
+  <link href="/stylesheets/print-preview.css" type="text/css" rel="stylesheet" media="screen" />
+  <link href="/stylesheets/print.css" type="text/css" rel="stylesheet" media="print" />
+</head>
+<div id="main">
+  <div class="order print">
+    <div class="info">
+      <ul class="sub-info">
+        <li>
+          <span>
+            生成时间：
+          </span>
+          <%= l Time.now %>
+        </li>
+      </ul>
+      <br class="clear" />
+    </div>
+    
+    <table>
+      <col class="col-0" />
+      <col class="col-1" />
+      <col class="col-2" />
+      <col class="col-3" />
+      <col class="col-4" />
+      <col class="col-5" />
+      <thead>
+        <tr>
+          <th>商家编码</th>
+          <th>商品名称</th>
+          <th>规格</th>
+          <th>库位</th>
+          <th>数量</th>
+          <th>单价</th>
+          <th>总价</th>
+        </tr>
+      </thead>
+      
+      <tbody>
+        <% @goods.each do |good| %>
+        <tr>
+          <td><%= good[:product_outer_id] %></td>
+          <td><%= good[:product_name] %></td>
+          <td><%= good[:sku_info] %></td>
+          <td><%= good[:position] %></td>
+          <td><%= good[:num] %></td>
+          <td><%= good[:price] %></td>
+          <td><%= good[:amount] %></td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+    
+    <ul class="price">
+      <li>
+        <span>商品总价：</span>
+        <%= @total_amount %>
+      </li>
+    </ul>
+    <br class="clear" />
+    <br><br>
+  </div>
+  
+  <div class="buttons">
+    <a type='button' id="printBtn" onclick="print();" style='width:100px;height:30px;'>确认打印</a>
+  </div>
+</div>
+
+<form action="normal_print_tickets.htm" method="post" name="tickets">
+  <input name='_tb_token_' type='hidden' value='f8bee668ee3b3'>
+  <input type="hidden" name="action" value="user/normal_print_ticket_action"
+  />
+  <input type="hidden" name="event_submit_do_confirm_print" value="1" />
+  <input type="hidden" name="orderIds" value="10179119940,10182031710,10368714416,10368643906,"
+  />
+</form>
+<script>
+  function formSubmit() {
+    var form = document.forms['tickets'];
+    // form.submit();
+  }
+</script>

@@ -1,0 +1,46 @@
+<div class='alert alert-error hide'>
+  至少要绑定一个店铺
+  <button class="close" data-dismiss="alert">×</button>
+</div>
+
+
+<div class="row">
+  <div class="span12">
+    <h1>
+      1. 绑定店铺
+    </h1>
+
+    <%= render 'shops/table', :shops => @current_user.shops, :source_url => 'init_step_one_path' %>
+  </div>
+</div>
+
+<div class="row" style='margin: 30px 0 30px 0;'>
+  <div class="span12 offset4">
+    <%= link_to ' 下一步 ', 'javascript:;', :id => 'next-button', :class => 'btn btn-success' %>    
+  </div>
+</div>
+
+<script>
+  jQuery(function($) {
+    var arr = $('.platform-td span');
+    
+    $('#next-button').click(function() {
+      
+      $.get('/settings/shops.json')
+      .success(function(response) {
+        if( _.find(response, function(item) { return item.binded }) ) {
+          window.location = '/init_step_two'
+        }else {
+          $('.alert').show();
+        }
+      });
+      
+    });
+  });
+  
+  if(top != this){
+    window.parent.eval('tb_remove()');
+    window.parent.location.reload();
+  }
+  
+</script>

@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/Fixtures.html
+
+one:
+  user_id: 1
+  year: 1
+  month: 1
+  day: 1
+  total_sales: 9.99
+  total_orders: 1
+  total_products: 1
+  total_customers: 1
+  total_new_customers: 1
+
+two:
+  user_id: 1
+  year: 1
+  month: 1
+  day: 1
+  total_sales: 9.99
+  total_orders: 1
+  total_products: 1
+  total_customers: 1
+  total_new_customers: 1

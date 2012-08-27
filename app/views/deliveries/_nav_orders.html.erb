@@ -1,0 +1,12 @@
+<ul class="nav nav-tabs" id='tab'>
+  <li class="<%= action_name == 'index' ? 'active' : ''%>">
+    <a href="/deliveries">未发货</a>
+  </li> 
+  <li class="<%= action_name == 'deliverying' ? 'active' : ''%>">
+    <a href="/deliveries/deliverying">发货中</a>
+  </li>
+  <li class="<%= action_name == 'delivered' ? 'active' : ''%>">
+    <a href="/deliveries/delivered">已发货</a>
+  </li>
+ 
+</ul>

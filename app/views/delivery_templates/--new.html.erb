@@ -1,0 +1,691 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+	<head>
+		<title>物流单设计</title>
+		<META http-equiv=Content-Type content="text/html; charset=utf-8">
+    <link href="/javascripts/template_editor/style.css" type="text/css" rel="stylesheet" />
+    <link href="/javascripts/template_editor/style2.css" type="text/css" rel="stylesheet" />
+
+    <script type="text/javascript" src="/javascripts/template_editor/jquery-1.3.1.min.js"></script>
+
+    <script type="text/javascript" src="/javascripts/template_editor/jquery.json-2.2.min.js"></script>
+    <script type="text/javascript" src="/javascripts/template_editor/util.js"></script>
+    <script type="text/javascript" src="/javascripts/template_editor/addEvent.js"></script>
+    <script type="text/javascript" src="/javascripts/template_editor/drag.js"></script>
+
+		<script type="text/javascript">
+			var dragresize = new DragResize('dragresize',
+			{ minWidth: 70, minHeight: 10, minLeft: 0, minTop: 0, maxLeft: 954, maxTop: 800 });
+			dragresize.isElement = function(elm)
+			{
+			if (elm.className && elm.className.indexOf('codefans_net') > -1) return true;
+			};
+			dragresize.isHandle = function(elm)
+			{
+			if (elm.className && elm.className.indexOf('drsMoveHandle') > -1) return true;
+			};
+			dragresize.ondragfocus = function() { };
+			dragresize.ondragstart = function(isResize) { };
+			dragresize.ondragmove = function(isResize) { };
+			dragresize.ondragend = function(isResize) { };
+			dragresize.ondragblur = function() { };
+			dragresize.apply(document);
+		</script>
+		<script type="text/javascript">
+			var orderIdShow=1;
+			var senderTelShow=1;
+			var receiverAddressShow=1;
+			var buyerNickShow=1;
+			var receiverPostCodeShow=1;
+			var senderCompanyNameShow=1;
+			var receiverNameShow=1;
+			var senderPostCodeShow=1;
+			var receiverTelShow=1;
+			var senderNameShow=1;
+			var senderAddressShow=1;
+			var buyerMemoShow=1;
+			var sellerMemoShow=1;
+			var printDateShow=1;
+			//增加备注1/2/3
+			var remark1MemoShow=1;
+			var remark2MemoShow=1;
+			var remark3MemoShow=1;
+			//发件商品
+			var sendGoodsShow=1;
+						
+			//初始化物流单的位置信息
+			function initPositionData(){
+				var kuaidiInfo =  {"positionData":"{'elements':[{'id':'senderAddress','show':'1','type':'normal','text':'senderAddress','name':'&#21457;&#20214;&#20154;&#22320;&#22336;','width':'194','height':'15','left':'92','top':'182'},{'id':'senderName','show':'1','type':'normal','text':'senderName','name':'&#21457;&#20214;&#20154;&#22995;&#21517;','width':'144','height':'15','left':'92','top':'112'},{'id':'receiverTel','show':'1','type':'normal','text':'receiverTel','name':'&#25910;&#20214;&#20154;&#30005;&#35805;','width':'144','height':'15','left':'526','top':'255'},{'id':'senderPostCode','show':'0','type':'normal','text':'senderPostCode','name':'&#21457;&#20214;&#20154;&#37038;&#32534;','width':'144','height':'15','left':'10','top':'190'},{'id':'receiverName','show':'1','type':'normal','text':'receiverName','name':'&#25910;&#20214;&#20154;&#22995;&#21517;','width':'144','height':'15','left':'492','top':'115'},{'id':'senderCompanyName','show':'1','type':'normal','text':'senderCompanyName','name':'&#21457;&#20214;&#20154;&#20844;&#21496;','width':'194','height':'15','left':'96','top':'152'},{'id':'receiverPostCode','show':'0','type':'normal','text':'receiverPostCode','name':'&#25910;&#20214;&#20154;&#37038;&#32534;','width':'144','height':'15','left':'10','top':'310'},{'id':'buyerNick','show':'0','type':'normal','text':'buyerNick','name':'&#20080;&#23478;&#26165;&#31216;','width':'144','height':'15','left':'10','top':'340'},{'id':'receiverAddress','show':'1','type':'normal','text':'receiverAddress','name':'&#25910;&#20214;&#20154;&#22320;&#22336;','width':'194','height':'15','left':'493','top':'185'},{'id':'senderTel','show':'1','type':'normal','text':'senderTel','name':'&#21457;&#20214;&#20154;&#30005;&#35805;','width':'144','height':'15','left':'125','top':'259'},{'id':'orderId','show':'0','type':'normal','text':'orderId','name':'&#35746;&#21333;&#32534;&#21495;','width':'144','height':'15','left':'10','top':'40'},{'id':'buyerMemo','show':'0','type':'normal','text':'buyerMemo','name':'&#20080;&#23478;&#22791;&#27880;','width':'194','height':'34','left':'10','top':'300'},{'id':'sellerMemo','show':'0','type':'normal','text':'sellerMemo','name':'&#21334;&#23478;&#22791;&#27880;','width':'194','height':'34','left':'10','top':'330'},{'id':'printDate','show':'0','type':'normal','text':'printDate','name':'&#25171;&#21360;&#26085;&#26399;','width':'144','height':'15','left':'10','top':'10'}],'fontSize':'12','printParaWidth':'869','printParaHeight':'476','printParaTop':'undefined','printParaLeft':'undefined'}"};
+				
+				var positionJSON = "";
+				
+				if (kuaidiInfo.positionData != "") {
+					positionJSON = eval("("+kuaidiInfo.positionData+")");
+					//设置物流单的位置信息
+					setPositionData(positionJSON);
+					//字体尺寸
+					var printFontSize = positionJSON.fontSize;
+					if (printFontSize != null) {
+						var fontSizeSelect = document.getElementById('print_font_size');
+						var options = fontSizeSelect.options;
+						for(var i = 0; i < options.length; i++){
+							if(parseInt(options[i].value) == parseInt(printFontSize)){
+								fontSizeSelect.selectedIndex = i;
+							}
+						}
+						//为每一个单元设置字体大小
+						var fontElements = $(".codefans_net font");
+						$.each(fontElements, function(i,n){
+							$(n).css("font-size",printFontSize + "px");
+						});
+					}
+				}
+				if (positionJSON != null) {
+					//设置图片信息
+					$("#img").attr("width",positionJSON.printParaWidth);
+					$("#img").attr("height",positionJSON.printParaHeight);
+					var w = parseInt((positionJSON.printParaWidth / 3.78).toFixed(0));
+					var h = parseInt((positionJSON.printParaHeight / 3.78).toFixed(0));
+					$("#printParaWidth").val(w);
+					$("#printParaHeight").val(h);
+				}
+				if (isNaN($("#printParaWidth").val()) && isNaN($("#printParaHeight").val())) {
+					$("#printParaWidth").val(230);
+					$("#printParaHeight").val(126);
+				}
+			}
+			
+			function setPositionData(positionJSON){
+				//设置每个element都为display:none,show值为1才显示出来
+				var positionElements = positionJSON.elements;
+				for(var i = 0; i < positionElements.length; i++){
+					$("#"+positionElements[i].id).css("width",positionElements[i].width);
+					$("#"+positionElements[i].id).css("height",positionElements[i].height);
+					$("#"+positionElements[i].id).css("left",positionElements[i].left);
+					$("#"+positionElements[i].id).css("top",positionElements[i].top);
+					if(parseInt(positionElements[i].show) == 1){
+						$("#"+positionElements[i].id).show();
+						$("#"+positionElements[i].id+"Check").attr("checked","checked");
+					}
+				}
+			}
+			// 改变图片的宽
+			function changeImgWidth() {
+				var paraWidth = $("#printParaWidth").val();
+				if (isNull(paraWidth)) {
+					alert("请输入图片的宽！");
+					return;
+				}
+				else if (!isNum(paraWidth)) {
+					alert("图片的宽必须为数字！");
+					return;
+				}
+				if (paraWidth < 10) {
+					paraWidth = 10;
+					$("#printParaWidth").val(10);
+				}
+				$("#img").width(parseInt(paraWidth * 3.78));
+			}
+			// 改变图片的高
+			function changeImgHeight() {
+				var paraHeight = $("#printParaHeight").val();
+				if (isNull(paraHeight)) {
+					alert("请输入图片的高！");
+					return;
+				}
+				else if (!isNum(paraHeight)) {
+					alert("图片的高必须为数字！");
+					return;
+				}
+				if (paraHeight < 10) {
+					paraHeight = 10;
+					$("#printParaHeight").val(10);
+				}
+				$("#img").height(parseInt(paraHeight * 3.78));
+			}
+			
+			$(document).ready(function() {
+				var codefans_nets = $(".codefans_net");
+				$.each(codefans_nets, function(i, n){
+					$(n).hide();
+				});
+				
+				$(".itemCheckbox").click(function() {
+					if ($(this).attr("checked")==true) {
+						var name = $(this).val()+"Show";
+						checkHide(name,1);
+						$("#"+$(this).val()).show();
+					}else {
+						var name = $(this).val()+"Show";
+						checkHide(name,0);
+						$("#"+$(this).val()).hide();
+					}
+				});
+			
+				initPositionData();
+				
+				//判断该单元被隐藏或被显示
+				function checkHide(name,value) {
+					if (name=="orderIdShow") {
+						orderIdShow=value;
+					}
+					else if (name=="senderTelShow") {
+						senderTelShow=value;
+					}
+					else if (name=="receiverAddressShow") {
+						receiverAddressShow=value;
+					}
+					else if (name=="receiverPostCodeShow") {
+							receiverPostCodeShow=value;
+					}
+					else if (name=="senderCompanyNameShow") {
+						senderCompanyNameShow=value;
+					}
+					else if (name=="receiverNameShow") {
+						receiverNameShow=value;
+					}
+					else if (name=="senderPostCodeShow") {
+						senderPostCodeShow=value;
+					}
+					else if (name=="receiverTelShow") {
+						receiverTelShow=value;
+					}
+					else if (name=="senderNameShow") {
+						senderNameShow=value;
+					}
+					else if (name=="senderAddressShow") {
+						senderAddressShow=value;
+					}
+					else if (name=="buyerMemoShow") {
+						buyerMemoShow=value;
+					}
+					else if (name=="sellerMemoShow") {
+						sellerMemoShow=value;
+					}
+					else if (name=="printDateShow") {
+						printDateShow=value;
+					}
+					else if (name=="buyerNickShow"){
+						buyerNickShow=value;
+					}
+					else if (name=="remark1MemoShow"){
+						remark1MemoShow=value;
+					}
+					else if (name=="remark2MemoShow"){
+						remark2MemoShow=value;
+					}
+					else if (name=="remark3MemoShow"){
+						remark3MemoShow=value;
+					}
+					else if (name=="sendGoodsShow"){
+						sendGoodsShow=value;
+					}					
+				}
+				
+				$("#J_TempleteDDField .field a").click(function() {
+					var name = $(this).attr("name");
+					var key = name.substring(0,name.indexOf("Show"));
+					checkHide(name,0);
+					$(this).parent().hide();
+					$("#"+key+"Check").attr('checked',false);
+				});
+				
+				//模板还原
+				$("#recove").click(function() {
+					if (!window.confirm("您确认初始化当前模板吗？初始化后的模板将替换当前模板！")) {
+						return;
+					}
+					//获取物流名
+					var _templetId = $("#printselect").find("option:selected").val();
+					if (_templetId == null) {
+						alert("初始化模板失败，请先初始化系统模板！");
+						return;
+					}
+					
+					window.location.href = "/taobao/wmsTempletExpress!expressRecove.action?templetId="+_templetId;
+					
+				});
+				//全部模板还原
+				$("#allRecove").click(function() {
+					if (!window.confirm("您确认初始化所有系统模板吗？")) {
+						return;
+					}
+					window.location.href = "/taobao/wmsTempletExpress!allExpessRecove.action";
+				});
+				//保存
+				$("#save").click(function() {
+					var paraWidth = $("#printParaWidth").val();
+					var paraHeight = $("#printParaHeight").val();
+					if (isNull(paraWidth) || isNull(paraHeight)) {
+						alert("请输入图片的宽和高！");
+						return;
+					}else if (!(isNum(paraWidth)&&isNum(paraHeight))) {
+						alert("图片的宽和高必须为数字！");
+						return;
+					}
+					
+					// 判断是否选择了物流公司
+					var _logisticsCorp = $("#logisticsCorp").val();
+					//alert(_logisticsCorp);
+					if (_logisticsCorp == "") {
+						alert("请选择物流公司！");
+						return;
+					}
+					
+					//判断右边的checkbox是否被选中
+					var rightCheckbox = $(".itemCheckbox");
+					$.each(rightCheckbox, function(i, n){
+						checkHide($(n).val() + "Show", $(n).attr("checked") ? 1 : 0);
+					});
+					//物流单位置数据
+					var _positionData = getLocationJSON();
+					$("#positionData").val(_positionData);
+					
+					//判断是否设置了常用的物流单
+					var _defaultExpress = $("input[name='defaultExpress']:checked");
+					if (_defaultExpress.length == 0) {
+						alert("请设置常用的物流单！");
+						return;
+					}
+					
+					var form = document.getElementById("expressForm");
+					form.action = "/settings/delivery_templates";
+          // form.submit();
+				});
+			});
+			// 改变字体大小
+			function changeFontSize(_select) {
+				var _fontSize = $(_select).val();
+				//为每一个单元设置字体大小
+				var fontElements = $(".codefans_net font");
+				$.each(fontElements, function(i,n){
+					$(n).css("font-size",_fontSize + "px");
+				});
+			}
+			// 模板删除
+			function deleteExpress() {
+				if (!window.confirm("您确认删除当前模板吗？")) {
+					return;
+				}
+				//获取物流名
+				var _templetId = $("#printselect").find("option:selected").val();
+				if (_templetId == null) {
+					alert("模板删除失败，您没有可以删除的模板！");
+					return;
+				}
+				
+				window.location.href = "/taobao/wmsTempletExpress!expressDelete.action?templetId="+_templetId;
+			}
+		</script>
+		
+
+
+<script type="text/javascript" src="http://toptrace.taobao.com/assets/getAppKey.js" topappkey="12359052" defer="defer"></script>
+
+<script>
+function correctPNG() 
+{
+for(var i=0; i<document.images.length; i++)
+{
+var img = document.images[i];
+var imgName = img.src.toUpperCase();
+if (imgName.substring(imgName.length-3, imgName.length) == "PNG")
+{
+var imgID = (img.id) ? "id='" + img.id + "' " : "";
+var imgClass = (img.className) ? "class='" + img.className + "' " : "";
+var imgTitle = (img.title) ? "title='" + img.title + "' " : "title='" + img.alt + "' ";
+var imgStyle = "display:inline-block;" + img.style.cssText;
+if (img.align == "left") imgStyle = "float:left;" + imgStyle;
+if (img.align == "right") imgStyle = "float:right;" + imgStyle;
+if (img.parentElement.href) imgStyle = "cursor:hand;" + imgStyle;
+var strNewHTML = "<span "+ imgID + imgClass + imgTitle + "style=\"" + "width:" + img.width + "px; height:" + img.height + "px;" + imgStyle + ";" 
++ "filter:progid:DXImageTransform.Microsoft.AlphaImageLoader" + "(src='" + img.src + "', sizingMethod='scale');\"></span>";
+img.outerHTML = strNewHTML;
+i = i-1;
+}
+}
+}
+window.attachEvent("onload", correctPNG);
+</script>
+
+
+	</head>
+	<body>
+		<div class="rightt">
+			<div class="righttcn">淘宝订单&nbsp;&gt;&nbsp;物流单设计&nbsp;&gt;&nbsp;设计</div>
+		</div>
+		<br/>
+		<div class="right" style="overflow:hidden;">
+		<div class="tbsp">
+		<div class="tbsptitb" style="margin-top: 10px;">
+		<div class="tbsptit">物流单设计</div>
+		</div>
+		</div></div>
+		<div id="printItems" align="left" style="position: absolute; top: 90px; left: 900px; width: 200px; z-index: 1000;">
+			<ul>
+				<li>
+					<input type="checkbox" id="printDateCheck" value="printDate"
+						class="itemCheckbox" />
+					当天日期
+				</li>
+				<li>
+					<input type="checkbox" id="orderIdCheck" value="orderId"
+						class="itemCheckbox" />
+					订单编号
+				</li>
+				<li>
+					<input type="checkbox" id="senderNameCheck" value="senderName"
+						class="itemCheckbox" />
+					发件人姓名
+				</li>
+				<li>
+					<input type="checkbox" id="senderTelCheck" value="senderTel"
+						class="itemCheckbox" />
+					发件人电话
+				</li>
+				<li>
+					<input type="checkbox" id="senderCompanyNameCheck"
+						value="senderCompanyName" class="itemCheckbox" />
+					发件人公司
+				</li>
+				<li>
+					<input type="checkbox" id="senderAddressCheck"
+						value="senderAddress" class="itemCheckbox" />
+					发件人地址
+				</li>
+				<li>
+					<input type="checkbox" id="senderPostCodeCheck"
+						value="senderPostCode" class="itemCheckbox" />
+					发件人邮编
+				</li>
+				<li>
+					<input type="checkbox" id="sendGoodsCheck"
+						value="sendGoods" class="itemCheckbox" />
+					发件商品
+				</li>
+				<li>
+					<input type="checkbox" id="receiverNameCheck" value="receiverName"
+						class="itemCheckbox" />
+					收件人姓名
+				</li>
+				<li>
+					<input type="checkbox" id="receiverTelCheck" value="receiverTel"
+						class="itemCheckbox" />
+					收件人电话
+				</li>
+				<li>
+					<input type="checkbox" id="receiverAddressCheck"
+						value="receiverAddress" class="itemCheckbox" />
+					收件人地址
+				</li>
+				<li>
+					<input type="checkbox" id="receiverPostCodeCheck"
+						value="receiverPostCode" class="itemCheckbox" />
+					收件人邮编
+				</li>
+				<li>
+					<input type="checkbox" id="buyerNickCheck" value="buyerNick"
+						class="itemCheckbox" />
+					买家昵称
+				</li>
+				<li>
+					<input type="checkbox" id="buyerMemoCheck" value="buyerMemo"
+						class="itemCheckbox" />
+					买家留言xx
+				</li>
+				<li>
+					<input type="checkbox" id="sellerMemoCheck" value="sellerMemo"
+						class="itemCheckbox" />
+					卖家备注
+				</li>
+				<li>
+					<input type="checkbox" id="remark1MemoCheck" value="remark1Memo"
+						class="itemCheckbox" />
+					备注1
+				</li>
+				<li>
+					<input type="checkbox" id="remark2MemoCheck" value="remark2Memo"
+						class="itemCheckbox" />
+					备注2
+				</li>	
+			  <li>
+					<input type="checkbox" id="remark3MemoCheck" value="remark3Memo"
+						class="itemCheckbox" />
+					备注3
+			  </li>			
+			</ul>
+		</div>
+		<ul>
+			<li>
+				<form id="expressForm" name="expressForm" action="" method="post" enctype="multipart/form-data">
+					选择物流单：
+					
+					<select name="wmsTempletExpress.templetId" id="printselect" onchange="expressChange()">
+    <option value="37235">EMS</option>
+    <option value="37236">cces</option>
+
+
+</select>
+
+					<span>
+						<a href="#" onclick="deleteExpress();" style="text-decoration:none;color: #00338f">删除</a>
+					</span>
+					&nbsp;
+					图片大小：宽：
+					<input id="printParaWidth" class="printPara" value="230" type="text" onchange="changeImgWidth();" />
+					(毫米) 高：
+					<input id="printParaHeight" class="printPara" value="126" type="text" onchange="changeImgHeight();" />
+					(毫米)
+					&nbsp;
+					打印字体：<select id="print_font_size" onchange="changeFontSize(this);" name="print_font_size">
+								<option value=12 selected>12</option>
+								<option value=13>13</option>
+								<option value=14>14</option>
+								<option value=15>15</option>
+								<option value=16>16</option>
+								<option value=17>17</option>
+								<option value=18>18</option>
+							</select>
+					&nbsp;
+					物流公司：
+							<select name="wmsTempletExpress.lcId" id="logisticsCorp">
+    <option value=""
+    >请选择</option>
+    <option value="1">北京全峰</option>
+    
+    <option value="33">优速物流</option>
+    <option value="34">全日通快递</option>
+    <option value="35">快捷速递</option>
+    <option value="36">其他</option>
+    </select>
+
+			</li>
+			<li>
+				物流单图片：
+				<input type="file" name="templetImg" value="" id="templetImgPath"/>
+				<span>
+					<input type="button" value="初始化当前模板" id="recove" class="blue_btn_7" />
+				</span>
+				<span>
+					<input type="button" value="初始化系统模板" id="allRecove" class="blue_btn_7" />
+				</span>
+				<span>
+					<input type="button" value="保存" id="save" class="grn_btn_s" />
+				</span>
+				<span>
+					<input type="button" value="新增" class="blue_btn_s" onclick="window.location.href='/taobao/wmsTempletExpress!beforeExpressAdd.action';" />
+				</span>
+			</li>
+			<li style="margin-top: 5px; width: 800px;">
+				选择常用物流单：
+				<input type="checkbox" name="defaultExpress" value="37235" id="defaultExpress-1"/>
+<label for="defaultExpress-1" class="checkboxLabel">EMS</label>
+<input type="checkbox" name="defaultExpress" value="37236" id="defaultExpress-2"/>
+<label for="defaultExpress-2" class="checkboxLabel">cces</label>
+<input type="checkbox" name="defaultExpress" value="37237" id="defaultExpress-3"/>
+<label for="defaultExpress-3" class="checkboxLabel">港中能达</label>
+<input type="checkbox" name="defaultExpress" value="37238" id="defaultExpress-4"/>
+<label for="defaultExpress-4" class="checkboxLabel">汇通</label>
+<input type="checkbox" name="defaultExpress" value="37239" id="defaultExpress-5"/>
+<label for="defaultExpress-5" class="checkboxLabel">龙邦</label>
+<input type="checkbox" name="defaultExpress" value="37240" id="defaultExpress-6" checked="checked"/>
+<label for="defaultExpress-6" class="checkboxLabel">申通</label>
+<input type="checkbox" name="defaultExpress" value="37241" id="defaultExpress-7"/>
+<label for="defaultExpress-7" class="checkboxLabel">顺丰</label>
+<input type="checkbox" name="defaultExpress" value="37242" id="defaultExpress-8"/>
+<label for="defaultExpress-8" class="checkboxLabel">圆通</label>
+<input type="checkbox" name="defaultExpress" value="37243" id="defaultExpress-9"/>
+<label for="defaultExpress-9" class="checkboxLabel">韵达</label>
+<input type="checkbox" name="defaultExpress" value="37244" id="defaultExpress-10"/>
+<label for="defaultExpress-10" class="checkboxLabel">中通</label>
+<input type="hidden" id="__multiselect_defaultExpress" name="__multiselect_defaultExpress" value="" /> 
+			</li>
+			<li>
+			</li>
+		</ul>
+		<div id="J_TempleteDDField">
+			&nbsp;&nbsp;
+			
+				<img id="img" src="/images/templates/yuantong.jpg" width='760' height='542'></img>
+			
+			
+			<div class="field">
+				<div id="printDate" class="codefans_net drsMoveHandle"
+					style="left: 10px; top: 10px; width: 150px;">
+					<font style="float: left;">打印日期</font>
+
+					<a href="javascript:void(0)" name="printDateShow"
+						style="float: right;">X</a>
+				</div>
+				<div id="orderId" class="codefans_net drsMoveHandle"
+					style="left: 10px; top: 40px; width: 150px;">
+					<font style="float: left;">订单编号</font>
+
+					<a href="javascript:void(0)" name="orderIdShow"
+						style="float: right;">X</a>
+				</div>
+				<div id="senderName" class="codefans_net drsMoveHandle"
+					style="left: 10px; top: 70px; width: 150px;">
+					<font style="float: left;">发件人姓名</font>
+
+					<a href="javascript:void(0)" name="senderNameShow"
+						style="float: right;"> X</a>
+				</div>
+				<div id="senderTel" style="left: 10px; top: 100px; width: 150px;"
+					class="codefans_net drsMoveHandle">
+					<font style="float: left;">发件人电话</font>
+
+					<a href="javascript:void(0)" name="senderTelShow"
+						style="float: right;">X</a>
+				</div>
+				<div id="senderCompanyName"
+					style="left: 10px; top: 130px; width: 200px;"
+					class="codefans_net drsMoveHandle">
+					<font style="float: left;">发件人公司</font>
+
+					<a href="javascript:void(0)" name="senderCompanyNameShow"
+						style="float: right;">X</a>
+				</div>
+				<div id="senderAddress"
+					style="left: 10px; top: 160px; width: 200px;"
+					class="codefans_net drsMoveHandle">
+					<font style="float: left;">发件人地址</font>
+
+					<a href="javascript:void(0)" name="senderAddressShow"
+						style="float: right;">X</a>
+				</div>
+				<div id="senderPostCode"
+					style="left: 10px; top: 190px; width: 150px;"
+					class="codefans_net drsMoveHandle">
+					<font style="float: left;">发件人邮编</font>
+
+					<a href="javascript:void(0)" name="senderPostCodeShow"
+						style="float: right;">X</a>
+				</div>
+				<div id="sendGoods"
+					style="left: 10px; top: 210px; height: 40px; width: 200px;"
+					class="codefans_net drsMoveHandle">
+					<font style="float: left;">发件商品</font>
+					<a href="javascript:void(0)" name="sendGoodsShow"
+						style="float: right;">X</a>
+				</div>
+				
+				<div id="receiverName" style="left: 10px; top: 240px; width: 150px;"
+					class="codefans_net drsMoveHandle">
+					<font style="float: left;">收件人姓名</font>
+
+					<a href="javascript:void(0)" name="receiverNameShow"
+						style="float: right;">X</a>
+				</div>
+				<div id="receiverTel" style="left: 10px; top: 270px; width: 150px;"
+					class="codefans_net drsMoveHandle">
+					<font style="float: left;">收件人电话</font>
+
+					<a href="javascript:void(0)" name="receiverTelShow"
+						style="float: right;">X</a>
+				</div>
+				<div id="receiverAddress"
+					style="left: 10px; top: 300px; width: 200px;"
+					class="codefans_net drsMoveHandle">
+					<font style="float: left;">收件人地址</font>
+
+					<a href="javascript:void(0)" name="receiverAddressShow"
+						style="float: right;">X</a>
+				</div>
+				<div id="receiverPostCode"
+					style="left: 10px; top: 330px; width: 150px;"
+					class="codefans_net drsMoveHandle">
+					<font style="float: left;">收件人邮编</font>
+
+					<a href="javascript:void(0)" name="receiverPostCodeShow"
+						style="float: right;">X</a>
+				</div>
+				<div id="buyerNick" style="left: 10px; top: 360px; width: 150px;"
+					class="codefans_net drsMoveHandle">
+					<font style="float: left;">买家昵称</font>
+					<a href="javascript:void(0)" name="buyerNickShow"
+						style="float: right;">X</a>
+				</div>
+				<div id="buyerMemo"
+					style="left: 10px; top: 390px; height: 40px; width: 200px;"
+					class="codefans_net drsMoveHandle">
+					<font style="float: left;">买家留言</font>
+					<a href="javascript:void(0)" name="buyerMemoShow"
+						style="float: right;">X</a>
+				</div>
+				<div id="sellerMemo"
+					style="left: 10px; top: 420px; height: 40px; width: 200px;"
+					class="codefans_net drsMoveHandle">
+					<font style="float: left;">卖家备注</font>
+					<a href="javascript:void(0)" name="sellerMemoShow"
+						style="float: right;">X</a>
+				</div>
+				<div id="remark1Memo" style="left: 90px; top: 420px; height: 40px; width: 200px;"
+					class="codefans_net drsMoveHandle">
+					<font style="float: left;">备注1</font>
+					<a href="javascript:void(0)" name="remark1MemoShow"
+						style="float: right;">X</a>
+				</div>
+				<div id="remark2Memo" style="left: 150px; top: 420px; height: 40px; width: 200px;"
+					class="codefans_net drsMoveHandle">
+					<font style="float: left;">备注2</font>
+					<a href="javascript:void(0)" name="remark2MemoShow"
+						style="float: right;">X</a>
+				</div>
+				<div id="remark3Memo" style="left: 230px; top: 420px; height: 40px; width: 200px;"
+					class="codefans_net drsMoveHandle">
+					<font style="float: left;">备注3</font>
+					<a href="javascript:void(0)" name="remark3MemoShow"
+						style="float: right;">X</a>
+				</div>
+			</div>
+		</div>
+		<input type="hidden" name="positionData" value="" id="positionData"/>
+		</form>
+
+
+
+
+	</body>
+	
+</html>

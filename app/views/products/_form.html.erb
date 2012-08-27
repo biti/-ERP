@@ -1,0 +1,73 @@
+
+<div id="product-form" class="form">
+  <%= form_for(@product, 
+    :url => (@product.id.blank? ? products_path : product_path(@product)), :html => {:class => 'form-horizontal'}) do |f| %>
+  
+    <% unless f.error_messages.blank? %>
+      <div class="alert alert-error">
+        <%= f.error_messages %>
+      </div>
+    <% end %>
+
+    <h3>1.基本信息</h3><br/>
+    <div class="control-group"><label class="control-label">商品名称</label>
+      <div class="controls">
+        <%= f.text_field :name, :class => 'span3 ' %>
+      </div>
+    </div>
+    
+    <div class="control-group"><label class="control-label">编码</label>
+      <div class="controls">
+        <%= f.text_field :no, :class => 'span2' %>
+      </div>
+    </div>
+    
+    <div class="control-group"><label class="control-label">卖价</label>
+      <div class="controls">
+        <%= f.text_field :price, :class => 'span1' %>
+      </div>
+    </div>
+
+    <div class="control-group"><label class="control-label">成本价</label>
+      <div class="controls">
+        <%= f.text_field :cost_price, :class => 'span1' %>
+      </div>
+    </div>
+    
+    <div class="control-group"><label class="control-label">数量</label>
+      <div class="controls">
+        <%= f.text_field :num, :class => 'span1 ' %>
+      </div>
+    </div>
+    
+    <div class="control-group"><label class="control-label">详细描述</label>
+      <div class="controls">
+        <%= f.fields_for :detail do |builder| %>
+          <%= builder.text_area :body, :size => '20x25', :style => 'width:550px;' %>
+        <% end %>
+      </div>
+    </div>
+    
+    <h3>2.物流信息</h3><br/>
+
+    <div class="control-group"><label class="control-label">商品所在地</label>
+      <div class="controls">
+        <%= text_field :foo, :place, :class => 'span1 ' %>
+      </div>
+    </div>
+
+    <div class="control-group"><label class="control-label">运费</label>
+      <div class="controls">
+        <%= text_field :foo, :place, :class => 'span1 ' %>
+      </div>
+    </div>
+    
+    <h3>3.销售信息</h3><br/>
+
+
+    <div class="form-actions">
+      <%= f.submit "提交", :class => "btn btn-success" %>&nbsp;&nbsp;
+      <%= link_to '取消', products_path, :class => 'btn' %>
+    </div>
+  <% end %>
+</div>
