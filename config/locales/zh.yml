@@ -52,6 +52,7 @@ zh:
       partner:
         login: "登录名"
         username: "用户名"
+        name: '公司名称'
         password: '密码'
         password_confirmation: '确认密码'
         phone: '电话'

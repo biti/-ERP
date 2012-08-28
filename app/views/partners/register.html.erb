@@ -11,6 +11,13 @@
   <% end %>
   
   <div class="control-group">
+    <label class="control-label" for="focusedInput">公司名称</label> 
+    <div class="controls">
+      <%= f.text_field :name, :class => 'span2' %>
+    </div>
+  </div>
+    
+  <div class="control-group">
     <label class="control-label" for="focusedInput">用户名</label> 
     <div class="controls">
       <%= f.text_field :login, :class => 'span2' %>

@@ -21,7 +21,7 @@ class Partner < ActiveRecord::Base
   
   attr_accessor :password_confirmation
 
-  validates_presence_of :login, :password
+  validates_presence_of :login, :password, :name
   validates_uniqueness_of :login
   validates_length_of :login, :within => 4..20, 
     :too_long => "太长，最多20位", :too_short => "太短，最少4位"
