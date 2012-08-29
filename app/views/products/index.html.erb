@@ -56,7 +56,7 @@
         <%= item.custom_id %>
       </td>
       <td><strong><%= item.name %></strong></td>
-      <td><%= item.category.name %></td>
+      <td><%= item.category.try(:name) %></td>
       <td><%= item.market_price %></td>
       <td><%= item.price %></td>
       <td><%= item.num %></td>

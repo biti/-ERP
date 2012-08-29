@@ -1391,7 +1391,7 @@ button.btn.small, input[type="submit"].btn.small {
   *margin-left: 0;
 }
 .icon-white {
-  background-image: url(<%= image_tag 'glyphicons-halflings-white.png' %>);
+  background-image: url(../images/glyphicons-halflings-white.png);
 }
 .icon-glass {
   background-position: 0      0;

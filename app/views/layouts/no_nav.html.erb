@@ -20,6 +20,23 @@
       <div class="container">
 
         <a class="brand" href="/">快品汇商家管理后台</a>
+        
+        <div class="nav-collapse collapse">
+          <ul class="nav" id='navbar'>
+          
+          </ul>
+          
+          <ul class="nav pull-right" id="user-bar">
+            <li class="<%= request.fullpath.include?('/docs') ? 'active' : '' %>">
+              <a href="/docs"><i class='icon-white icon-question-sign'></i>帮助</a>
+            </li>
+            <% if @current_partner %>
+            <li class=""><a href="javascript:;">欢迎，<%=@current_partner.name %></a></li>
+            <li class=""><a href="/logout">注销</a></li></ul>              
+            <% end %>
+          </ul>
+          
+        </div>
 
       </div>
     </div>

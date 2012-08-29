@@ -119,9 +119,11 @@ class ProductsController < ApplicationController
       ].to_json
     end
     params[:product][:properties_attributes] = {}
-    
+
     @product = Product.new(params[:product])
-    @product.audit_status = 20
+    @product.status = 20
+    @product.is_delete = 20
+    @product.audit_status = 10
     @product.partner_id = @current_partner.id
     
     @product.image1 = params[:image1]
