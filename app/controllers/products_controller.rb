@@ -118,6 +118,7 @@ class ProductsController < ApplicationController
         }
       ].to_json
     end
+    params[:product][:properties_attributes] = {}
     
     @product = Product.new(params[:product])
     @product.partner_id = @current_partner.id
@@ -158,6 +159,7 @@ class ProductsController < ApplicationController
         }
       ].to_json
     end
+    params[:product][:properties_attributes] = {}
 
     respond_to do |format|
       if @product.update_attributes(params[:product])
