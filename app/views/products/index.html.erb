@@ -64,21 +64,7 @@
         <%= link_to '编辑', edit_product_url(item), :target => '_blank' %>
       </td>
     </tr>
-    
-      <% unless item.skus.blank? %>
-      <!-- <tr style='border: 1px solid #DDD;' class='orders-items'> -->
-      <tr>
-        <td><%= image_tag item.image_url, :size => '50x50' %></td>
-        <td colspan='5'>
-          <!-- <span style='float:left;margin:2px 5px'>详细库存：</span> -->
-          <% item.skus.each do |sku| %>
-            <%= raw sku_tag(sku, @shortage_skus)%>
-          <% end %>
-        </td>
-        <td>            
-        </td>
-      </tr>
-      <% end %>
+  
     
     <% end %>
 
