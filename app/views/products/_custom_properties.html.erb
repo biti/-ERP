@@ -1,0 +1,18 @@
+<%= f.fields_for :properties do |builder| %>
+  <%= builder.text_field :name, :class => "properties-input span1", 
+    :readonly => true, 'data-property' => builder.object.name %>
+  <br/><br/>
+  
+  <%= builder.fields_for :property_values do |b| %>
+    <%= check_box_tag :check_property, :class => 'check-property-value', 
+      'data-property' => builder.object.name, 
+      'data-property-value' => b.object.name  %>
+    <%= b.object.name %>&nbsp;&nbsp;
+  <% end %>
+  <br/><br/>
+<% end %>
+<script>
+  $(document).ready(function(){
+    App.Views.Products.CustomProperties.init();
+  });
+</script>

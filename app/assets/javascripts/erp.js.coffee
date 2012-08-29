@@ -9,6 +9,7 @@ window.App =
       Index: {}
     Products:
       Index: {}
+      SelectCategory: {}
     Charts:
       Index: {}
     

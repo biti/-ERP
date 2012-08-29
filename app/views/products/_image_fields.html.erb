@@ -1,0 +1,44 @@
+<div class="control-group"><label class="control-label">商品图片1</label>
+  <div class="controls">
+    <%= f.file_field :image1 %>
+    <% if product.image1.url %>
+      <%= image_tag product.image1.url, :size => '50x50' %>
+    <% end %>
+  </div>
+</div>
+
+<div class="control-group"><label class="control-label">商品图片2</label>
+  <div class="controls">
+    <%= f.file_field :image2 %>
+    <% if product.image2.url %>
+      <%= image_tag product.image2.url, :size => '50x50' %>
+    <% end %>
+  </div>
+</div>
+
+<div class="control-group"><label class="control-label">商品图片3</label>
+  <div class="controls">
+    <%= f.file_field :image3 %>
+    <% if product.image3.url %>
+      <%= image_tag product.image3.url, :size => '50x50' %>
+    <% end %>
+  </div>
+</div>
+
+<div class="control-group"><label class="control-label">商品图片4</label>
+  <div class="controls">
+    <%= f.file_field :image4 %>
+    <% if product.image4.url %>
+      <%= image_tag product.image4.url, :size => '50x50' %>
+    <% end %>
+  </div>
+</div>
+
+<div class="control-group"><label class="control-label">商品图片5</label>
+  <div class="controls">
+    <%= f.file_field :image5 %>
+    <% if product.image5.url %>
+      <%= image_tag product.image5.url, :size => '50x50' %>
+    <% end %>
+  </div>
+</div>

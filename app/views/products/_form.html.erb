@@ -1,15 +1,29 @@
+<% if notice %>
+<div class='alert alert-success'>
+  <%= notice %>  <button class="close" data-dismiss="alert">×</button>
+</div>
+<% end %>
 
 <div id="product-form" class="form">
   <%= form_for(@product, 
-    :url => (@product.id.blank? ? products_path : product_path(@product)), :html => {:class => 'form-horizontal'}) do |f| %>
+    :url => (@product.id.blank? ? products_path : product_path(@product)), :html => {:class => 'form-horizontal', :multipart => true}) do |f| %>
+    
+    <%= f.hidden_field :category_id %>
   
     <% unless f.error_messages.blank? %>
       <div class="alert alert-error">
         <%= f.error_messages %>
       </div>
     <% end %>
+    
+    <div class="control-group" style='color:red'>
+      <label class="control-label" style='margin-top:-5px;'>品类</label>
+      <div class="controls">
+        <%= @product.category.parent.name %> &nbsp;>> &nbsp;
+        <%= @product.category.name%>
+      </div>
+    </div>
 
-    <h3>1.基本信息</h3><br/>
     <div class="control-group"><label class="control-label">产品名称（短标题）</label>
       <div class="controls">
         <%= f.text_field :name, :class => 'span3 ' %>
@@ -25,6 +39,12 @@
     <div class="control-group"><label class="control-label">自定义编码</label>
       <div class="controls">
         <%= f.text_field :custom_id, :class => 'span1' %>
+      </div>
+    </div>
+    
+    <div class="control-group"><label class="control-label">自定义属性</label>
+      <div class="controls">
+        <%= render 'custom_properties', :f => f %>
       </div>
     </div>
 
@@ -46,16 +66,6 @@
       </div>
     </div>
     
-    <div class="control-group"><label class="control-label">详细描述</label>
-      <div class="controls">
-        <%= f.fields_for :content do |builder| %>
-          <%= builder.text_area :description, :size => '20x25', :style => 'width:550px;' %>
-        <% end %>
-      </div>
-    </div>
-    
-    <h3>2.物流信息</h3><br/>
-
     <div class="control-group"><label class="control-label">商品所在地</label>
       <div class="controls">
         <%= text_field :foo, :place, :class => 'span1 ' %>
@@ -67,12 +77,20 @@
         <%= text_field :foo, :place, :class => 'span1 ' %>
       </div>
     </div>
-    
-    <h3>3.销售信息</h3><br/>
 
+    <%= render 'image_fields', :f => f, :product => @product %>
+    
+    <div class="control-group"><label class="control-label">商品描述</label>
+      <div class="controls">
+        <%= f.fields_for :content do |builder| %>
+          <!-- <%= builder.text_area :description, :size => '20x25', :style => 'width:550px;' %> -->
+          <%= builder.kindeditor :description, :width => 700, :height => 600 %>
+        <% end %>
+      </div>
+    </div>
 
     <div class="form-actions">
-      <%= f.submit "提交", :class => "btn btn-success" %>&nbsp;&nbsp;
+      <%= f.submit " 提交 ", :class => "btn btn-success" %>&nbsp;&nbsp;
       <%= link_to '取消', products_path, :class => 'btn' %>
     </div>
   <% end %>

@@ -1,6 +1,6 @@
 # encoding: UTF-8
 class ProductsController < ApplicationController
-
+  
   before_filter :filter_products, :only => [:index, :instock, :smart_sale]
   
   def filter_products
@@ -33,18 +33,6 @@ class ProductsController < ApplicationController
       format.html { render :index }
       format.json
     end
-  end
-  
-  # 智能上下架
-  def smart_sale
-    respond_to do |format|
-      format.html 
-      format.json
-    end
-  end
-  
-  def edit_sale
-    
   end
 
   def inventory
@@ -82,27 +70,57 @@ class ProductsController < ApplicationController
     end
   end
   
+  def select_category
+    @root_categories = Category.where('parent_id is null')
+    render :layout => 'no_nav'
+  end
+  
+  def category_children
+    @categories = Category.where(:parent_id => params[:parent_id])
+    render :layout => false
+  end
+  
   def new
+    if params[:category_id].blank?
+      redirect_to select_category_products_url, :notice => '请选择品类' 
+      return
+    end
+    
     @product = Product.new
+    @product.category_id = params[:category_id]
     @product.build_content
 
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json
+    property1 = @product.properties.build(:name => '颜色')
+    ['红色', '绿色', '蓝色', '黑色', '黄色', '白色'].each do |name|
+      property1.property_values.build :name => name
     end
+  
+    property2 = @product.properties.build(:name => '尺码')
+    ['XS', 'S', 'M', 'L', 'XL', 'XXL', '均码'].each do |name|
+      property2.property_values.build :name => name
+    end
+
+    render :layout => 'no_nav'
   end
   
   def edit
     @product = Product.find(params[:id])
+    render :layout => 'no_nav'
   end
   
   def create
     @product = Product.new(params[:product])
     @product.partner_id = @current_partner.id
+    
+    @product.image1 = params[:image1]
+    @product.image2 = params[:image2]
+    @product.image3 = params[:image3]
+    @product.image4 = params[:image4]
+    @product.image5 = params[:image5]
 
     respond_to do |format|
       if @product.save
-        format.html { redirect_to(products_path, :notice => '创建成功。') }
+        format.html { redirect_to(edit_product_path(@product), :notice => '保存成功。') }
         format.json
       else
         format.html { render :action => "new" }
@@ -117,7 +135,7 @@ class ProductsController < ApplicationController
 
     respond_to do |format|
       if @product.update_attributes(params[:product])
-        format.html { redirect_to(edit_product_path(@product), :notice => '更新成功') }
+        format.html { redirect_to(edit_product_path(@product), :notice => '保存成功') }
         format.json
       else
         format.html { render :action => "edit" }

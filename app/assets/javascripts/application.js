@@ -10,6 +10,7 @@
 //= require jquery-ui
 //= require bootstrap
 //= require highcharts.src
+//= require kindeditor
 
 //= require erp
 //= require dashboard

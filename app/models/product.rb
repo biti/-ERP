@@ -10,13 +10,24 @@ class Product < ActiveRecord::Base
   has_many :skus
   accepts_nested_attributes_for :skus
   
+  has_many :properties
+  accepts_nested_attributes_for :properties
+  
   belongs_to :partner
+  belongs_to :category
 
   validates_presence_of :name, :title, :price, :market_price, :custom_id
   validates_uniqueness_of :custom_id, :scope => :partner_id
   validates_numericality_of :market_price, :greater_than => 0, :message => '必须大于0'
   validates_numericality_of :price, :greater_than => 0, :less_than_or_equal_to => :market_price, :message => '必须小于或等于商场价，并且大于0'
-    
+  
+  # 集成上传模块
+  mount_uploader :image1, ProductImageUploader
+  mount_uploader :image2, ProductImageUploader
+  mount_uploader :image3, ProductImageUploader
+  mount_uploader :image4, ProductImageUploader
+  mount_uploader :image5, ProductImageUploader
+  
   STATUS = {
     :onsale => {
       :name => '出售中',

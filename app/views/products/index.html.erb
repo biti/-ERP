@@ -21,7 +21,7 @@
     <%= link_to '全不选', 'javascript:;', :id => 'check-all-no'%>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
-    <% if action_name == 'index' %>
+    <!-- <% if action_name == 'index' %>
       <%= link_to '手动下架', 'javascript:;', :id => 'delisting-button', 
         :class => 'btn ' %>&nbsp;&nbsp;
     <% end %>
@@ -29,7 +29,7 @@
     <% if action_name == 'instock' %>
       <%= link_to '手动上架', 'javascript:;', :id => 'listing-button', 
         :class => 'btn ' %>&nbsp;&nbsp;
-    <% end %>
+    <% end %> -->
   </div>
 
 
@@ -37,12 +37,13 @@
     <thead>
       <tr>
         <th width='50'></th>
-        <th width='230'>编码</th>
+        <th width='100'>编码</th>
         <th width=''>产品名称</th>
-        <th width='50'>价格</th>
-        <th width='50'>总销量</th>
-        <th width='50'>总库存</th>
-        <th width='55'> </th>
+        <th width='80'>品类</th>
+        <th width='60'>商场价</th>
+        <th width='60'>售卖价</th>
+        <th width='60'>总库存</th>
+        <th width='55'></th>
       </tr>
     </thead>
 
@@ -55,11 +56,12 @@
         <%= item.custom_id %>
       </td>
       <td><strong><%= item.name %></strong></td>
+      <td><%= item.category.name %></td>
       <td><%= item.price %></td>
       <td><%= item.sell_num %></td>
       <td><%= item.num %></td>
       <td>
-        <%= link_to '调整库存', edit_inventory_product_path(item.id) + '?return_url=' + products_path %>
+        <%= link_to '编辑', edit_product_url(item), :target => '_blank' %>
       </td>
     </tr>
     

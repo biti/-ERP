@@ -30,24 +30,11 @@ Paidan::Application.routes.draw do
 
   resources :products do
     member do
-      get 'edit_inventory'
-      put 'update_inventory'
     end
     
     collection do
-      get 'instock'
-      get 'smart_sale'
-      get 'edit_sale'
-      get 'listing'
-      get 'delisting'
-      
-      get 'stocks'
-      get 'sync'
-      get 'do_sync'
-      get 'shortage'
-      
-      get 'inventory'
-      
+      get 'select_category'
+      get 'category_children'
     end
   end
 
