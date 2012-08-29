@@ -43,6 +43,3 @@ App.Views.Products.CustomProperties =
         skuTrs += skuTr.get(0).outerHTML
       
       skuTable.html skuTrs
-      
-      
-          
