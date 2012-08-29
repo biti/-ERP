@@ -121,7 +121,7 @@ class ProductsController < ApplicationController
     params[:product][:properties_attributes] = {}
     
     @product = Product.new(params[:product])
-    @product.audit_sataus = 20
+    @product.audit_status = 20
     @product.partner_id = @current_partner.id
     
     @product.image1 = params[:image1]
