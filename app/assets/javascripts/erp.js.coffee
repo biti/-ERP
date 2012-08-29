@@ -12,7 +12,7 @@ window.App =
       SelectCategory: {}
     Charts:
       Index: {}
-    
+          
   Constants:
     TEMPLATE_FIELDS:
       order_no: "订单号"
@@ -351,9 +351,4 @@ window.App =
       no_format: "^[0-9]{10}$"
       taobao_code: "ZJS"
     ]
-    
-    
-    
-    
-    
-    
+  
