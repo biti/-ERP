@@ -6,12 +6,12 @@ class Sku < ActiveRecord::Base
   
   has_many :stocks
   
-  def color
+  def value_0
     return '' if specification.blank?
     JSON.parse(specification).find{ |item| item['property'] == '颜色' }['value']
   end
 
-  def size
+  def value_1
     return '' if specification.blank?
     JSON.parse(specification).find{ |item| item['property'] == '尺码' }['value']
   end
