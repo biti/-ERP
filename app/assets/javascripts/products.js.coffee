@@ -12,13 +12,7 @@ App.Views.Products.CustomProperties =
     
     $('.check-property-value').on 'change', (event) ->
       that = $(this)
-      
       skuTable = $('#skus-tbody')
-      
-      checked = that.attr('checked')
-      if (checked == 'checked')
-        
-      else
       
       arr = []
       $(".properties-input").each ->
@@ -41,8 +35,8 @@ App.Views.Products.CustomProperties =
       skuTrs = ''
       _.each skusArr, (item, t) ->
         skuTr = $("<tr></tr>")  
-        _.each item, (i) ->
-          skuTd = $("<td>" + i + "&nbsp;</td>")
+        _.each item, (i, index) ->
+          skuTd = $("<td><input readonly='readonly' class='input-mini' name=product[skus_attributes][" + t + "][value_" + index + "] value='" + i + "'/></td>")
           skuTr.append(skuTd)
         
         skuTr.append("<td><input name='product[skus_attributes][" + t + "][price]' class='input-mini'/></td><td><input name='product[skus_attributes]["+ t + "][num]' class='input-mini'/></td><td><input name='product[skus_attributes][" + t + "][custom_id]' class='input-mini'/></td>")

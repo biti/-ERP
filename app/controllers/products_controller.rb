@@ -89,26 +89,36 @@ class ProductsController < ApplicationController
     @product = Product.new
     @product.category_id = params[:category_id]
     @product.build_content
-
-    property1 = @product.properties.build(:name => '颜色')
-    ['红色', '绿色', '蓝色', '黑色', '黄色', '白色'].each do |name|
-      property1.property_values.build :name => name
-    end
-  
-    property2 = @product.properties.build(:name => '尺码')
-    ['XS', 'S', 'M', 'L', 'XL', 'XXL', '均码'].each do |name|
-      property2.property_values.build :name => name
-    end
-
+    @product.build_properties_values
+    
     render :layout => 'no_nav'
   end
   
   def edit
     @product = Product.find(params[:id])
+    @product.build_properties_values
+    
     render :layout => 'no_nav'
   end
   
   def create
+    params[:product][:skus_attributes].each do |key, value|
+      value[:specification] = [
+        {
+          :property_id => '1001',
+          :property => "颜色",
+          :value_id => 10010001,
+          :value => value.delete('value_0'),
+        },
+        {
+          :property_id => '1002',
+          :property => "尺码",
+          :value_id => 10010002,
+          :value => value.delete('value_1'),
+        }
+      ].to_json
+    end
+    
     @product = Product.new(params[:product])
     @product.partner_id = @current_partner.id
     
@@ -117,7 +127,7 @@ class ProductsController < ApplicationController
     @product.image3 = params[:image3]
     @product.image4 = params[:image4]
     @product.image5 = params[:image5]
-
+    
     respond_to do |format|
       if @product.save
         format.html { redirect_to(edit_product_path(@product), :notice => '保存成功。') }
@@ -132,6 +142,22 @@ class ProductsController < ApplicationController
   # 更新商品
   def update
     @product = Product.find(params[:id])
+    params[:product][:skus_attributes].each do |key, value|
+      value[:specification] = [
+        {
+          :property_id => '1001',
+          :property => "颜色",
+          :value_id => 10010001,
+          :value => value.delete('value_0'),
+        },
+        {
+          :property_id => '1002',
+          :property => "尺码",
+          :value_id => 10010002,
+          :value => value.delete('value_1'),
+        }
+      ].to_json
+    end
 
     respond_to do |format|
       if @product.update_attributes(params[:product])

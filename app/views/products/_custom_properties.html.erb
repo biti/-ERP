@@ -24,13 +24,15 @@
   </thead>
   
   <tbody id='skus-tbody'>
+    <%= f.fields_for :skus do |builder| %>
     <tr>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
+      <td><%= builder.text_field :color, :class => 'input-mini', :readonly => true %></td>
+      <td><%= builder.text_field :size, :class => 'input-mini', :readonly => true %></td>
+      <td><%= builder.text_field :price, :class => 'input-mini' %></td>
+      <td><%= builder.text_field :num, :class => 'input-mini' %></td>
+      <td><%= builder.text_field :custom_id, :class => 'input-mini' %></td>
     </tr>
+    <% end %>
   </tbody>
 </table>
 
