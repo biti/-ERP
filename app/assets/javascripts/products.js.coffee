@@ -21,6 +21,3 @@ App.Views.Products.CustomProperties =
 
     $('.check-property-value').on 'change', (event) ->
       that = $(this)
-      
-      if
-      
