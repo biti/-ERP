@@ -18,3 +18,30 @@
 //= require orders
 //= require deliveries
 //= require products
+
+function cartProd(list) {
+    var first = list[0];
+    var rest = list.slice(1);
+
+    if (first) {
+        var output = [];
+
+        if (rest.length > 0) {
+            var prod_rest = cartProd(rest);
+
+            for (var i = 0; i < prod_rest.length; i++) {
+                for (var j = 0; j < first.length; j++) {
+                    output.push([first[j]].concat(prod_rest[i]));
+                }
+            }
+        } else {
+            for (var j = 0; j < first.length; j++) {
+                output.push([first[j]]);
+            }
+        }
+
+        return output;
+    } else {
+        return [];
+    }
+}
