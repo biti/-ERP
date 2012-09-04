@@ -102,22 +102,25 @@ class ProductsController < ApplicationController
   end
   
   def create
-    params[:product][:skus_attributes].each do |key, value|
-      value[:specification] = [
-        {
-          :property_id => '1001',
-          :property => "颜色",
-          :value_id => 10010001,
-          :value => value.delete('value_0'),
-        },
-        {
-          :property_id => '1002',
-          :property => "尺码",
-          :value_id => 10010002,
-          :value => value.delete('value_1'),
-        }
-      ].to_json
+    if params[:product][:skus_attributes]
+      params[:product][:skus_attributes].each do |key, value|
+        value[:specification] = [
+          {
+            :property_id => '1001',
+            :property => "颜色",
+            :value_id => 10010001,
+            :value => value.delete('value_0'),
+          },
+          {
+            :property_id => '1002',
+            :property => "尺码",
+            :value_id => 10010002,
+            :value => value.delete('value_1'),
+          }
+        ].to_json
+      end
     end
+    
     params[:product][:properties_attributes] = {}
 
     @product = Product.new(params[:product])

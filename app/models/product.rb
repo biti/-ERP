@@ -16,7 +16,7 @@ class Product < ActiveRecord::Base
   belongs_to :partner
   belongs_to :category
 
-  validates_presence_of :name, :title, :price, :market_price, :custom_id
+  validates_presence_of :name, :title, :price, :market_price, :custom_id, :num
   validates_uniqueness_of :custom_id, :scope => :partner_id
   validates_numericality_of :market_price, :greater_than => 0, :message => '必须大于0'
   validates_numericality_of :price, :greater_than => 0, :less_than_or_equal_to => :market_price, :message => '必须小于或等于商场价，并且大于0'
