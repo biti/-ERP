@@ -15,5 +15,5 @@ class Sku < ActiveRecord::Base
     return '' if specification.blank?
     JSON.parse(specification).find{ |item| item['property'] == '尺码' }['value']
   end
-  
+
 end

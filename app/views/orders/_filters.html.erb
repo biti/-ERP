@@ -4,20 +4,20 @@
   商品名称：
   <%= text_field :filters, :product_name, :class => 'span2', :value => params[:filters].try(:[], :product_name) %>
   订单号：
-  <%= text_field :filters, :outer_id, :class => 'span2', :value => params[:filters].try(:[], :outer_id) %>
+  <%= text_field :filters, :id, :class => 'span2', :value => params[:filters].try(:[], :id) %>
 
   订单状态：
   <%= select :filters, :status, 
-    [['等待买家付款', '10'], ['买家已付款', '20'], ['等待发货', 30], ['已发货', 40], ['交易成功', 50], ['交易关闭', 60]], 
+    [['等待买家付款', '10'], ['买家已付款', '20'], ['等待发货', 30], ['已发货', 40]], 
     { :selected => params[:filters].try(:[], :status), :include_blank => '不限' }, :class => 'span2' %>
   <br/>
   
-  成交时间从：
+<!--   成交时间从：
   <%= text_field :filters, :order_time_start, :class => 'span2', :style => '', :value => params[:filters].try(:[], :order_time_start) %>
   到
   <%= text_field :filters, :order_time_end, :class => 'span2', :style => '', :value => params[:filters].try(:[], :order_time_end) %>
   &nbsp;&nbsp;&nbsp;&nbsp;
-  
+   -->
   <%= link_to '查询', 'javascript:;', :class => 'btn btn-primary', :id => 'find-btn', :style => 'margin-bottom:9px' %> 
   &nbsp;&nbsp;
   <%= link_to '重置', orders_path, :class => 'btn', :style => 'margin-bottom:9px' %>
@@ -27,14 +27,14 @@
 
 <script type="text/javascript">
   $(function(){
-    $.datepicker.setDefaults( $.datepicker.regional[ "zh-CN" ] );
+    // $.datepicker.setDefaults( $.datepicker.regional[ "zh-CN" ] );
     
     // $('#filters_order_time_start, #filters_order_time_end').datetimepicker({
-    //       inline: true
-    //     });
-    //     
+    //   inline: true
+    // });
+        
     
-    var filters = $('#filters_name, #filters_outer_id, #filters_product_name, #filters_status, #filters_order_time_start, #filters_order_time_end');
+    var filters = $('#filters_name, #filters_id, #filters_product_name, #filters_status, #filters_order_time_start, #filters_order_time_end');
     
     var getUrl = function(clickedEl) {
       var params = []

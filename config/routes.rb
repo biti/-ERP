@@ -1,12 +1,6 @@
 Paidan::Application.routes.draw do
   resources :docs
-  
-  resources :charts do
-    collection do
-      get 'month_datas'
-    end
-  end
-  
+    
   resources :deliveries do
     collection do
       get 'deliverying'
