@@ -1,18 +1,18 @@
-app_name = 'erp-dev'
+app_name = 'erp_dev'
 
-working_directory "/home/www/#{app_name}/current"
+working_directory "/home/www/kuaipinhui/#{app_name}/current"
 
-app_dir = "/home/www/#{app_name}"
+app_dir = "/home/www/kuaipinhui/#{app_name}"
 shared_dir = "#{app_dir}/shared"
 logs_dir = "#{shared_dir}/log"
 tmp_dir = "#{shared_dir}/tmp"
 pids_dir = "#{shared_dir}/pids"
 
 user 'www', 'www'
-worker_processes 4
+worker_processes 1
 
 listen "#{tmp_dir}/unicorn.socket", :backlog => 64
-listen 5555, :tcp_nopush => true
+listen 4444, :tcp_nopush => true
 
 preload_app true
 timeout 30
@@ -39,7 +39,3 @@ before_fork do |server, worker|
   end
 end
 
-after_fork do |server, worker|
-  addr = "127.0.0.1:#{5555+ worker.nr}"
-  server.listen(addr, :tries => -1, :delay => 5, :tcp_nopush => true)
-end

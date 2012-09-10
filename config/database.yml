@@ -18,9 +18,9 @@ test:
 
 production:
   adapter: mysql2
-  database: kuaipinhui
+  database: kuaipinhui_development
   pool: 5
   timeout: 5000
   username: root
-  password: 
-  socket: /tmp/mysql.sock
+  password: root 
+  socket: /var/run/mysqld/mysqld.sock
