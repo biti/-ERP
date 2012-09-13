@@ -21,6 +21,10 @@ class Product < ActiveRecord::Base
   validates_numericality_of :market_price, :greater_than => 0, :message => '必须大于0'
   validates_numericality_of :price, :greater_than => 0, :less_than_or_equal_to => :market_price, :message => '必须小于或等于商场价，并且大于0'
   
+  validate do |record|
+    record.errors[:base] << "至少要录入一款sku" if skus.empty?
+  end
+  
   # 集成上传模块
   mount_uploader :image1, ProductImageUploader
   mount_uploader :image2, ProductImageUploader

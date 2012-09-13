@@ -95,7 +95,6 @@
     <div class="control-group"><label class="control-label">商品描述</label>
       <div class="controls">
         <%= f.fields_for :content do |builder| %>
-          <!-- <%= builder.text_area :description, :size => '20x25', :style => 'width:550px;' %> -->
           <%= builder.kindeditor :description, :width => 700, :height => 600 %>
         <% end %>
       </div>

@@ -140,6 +140,8 @@ class ProductsController < ApplicationController
         format.html { redirect_to(edit_product_path(@product), :notice => '保存成功。') }
         format.json
       else
+        @product.build_content
+        @product.build_properties_values
         format.html { render :action => "new" }
         format.json
       end
@@ -149,26 +151,29 @@ class ProductsController < ApplicationController
   # 更新商品
   def update
     @product = Product.find(params[:id])
-    params[:product][:skus_attributes].each do |key, value|
-      value[:specification] = [
-        {
-          :property_id => '1001',
-          :property => "颜色",
-          :value_id => 10010001,
-          :value => value.delete('value_0'),
-        },
-        {
-          :property_id => '1002',
-          :property => "尺码",
-          :value_id => 10010002,
-          :value => value.delete('value_1'),
-        }
-      ].to_json
+    
+    if params[:product][:skus_attributes]
+      params[:product][:skus_attributes].each do |key, value|
+        value[:specification] = [
+          {
+            :property_id => '1001',
+            :property => "颜色",
+            :value_id => 10010001,
+            :value => value.delete('value_0'),
+          },
+          {
+            :property_id => '1002',
+            :property => "尺码",
+            :value_id => 10010002,
+            :value => value.delete('value_1'),
+          }
+        ].to_json
+      end
     end
     params[:product][:properties_attributes] = {}
 
     respond_to do |format|
-      if @product.update_attributes(params[:product])
+      if @product.skus.delete_all and @product.update_attributes(params[:product])
         format.html { redirect_to(edit_product_path(@product), :notice => '保存成功') }
         format.json
       else

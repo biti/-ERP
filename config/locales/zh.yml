@@ -35,6 +35,9 @@ zh:
     next_label: 下一页 »
 
   activerecord:
+    models:
+      product: '商品'
+      sku: 'sku'
     attributes:
       product:
         name: "产品名称"
@@ -43,6 +46,10 @@ zh:
         price: '售卖价'
         custom_id: '自定义编码'
         num: '总库存'
+        skus:
+          price: 'sku价格'
+          custom_id: 'sku商家编码'
+          num: 'sku库存'
       supplier:
         brand: "品牌名称"
         company: "公司名称"
